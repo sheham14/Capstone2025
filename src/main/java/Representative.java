@@ -14,7 +14,7 @@ public class Representative extends User {
             Quote quote = iterator.next();
             if (quote.getQuoteId().equals(quoteId)) {
                 selectedQuote = quote;
-                iterator.remove();  // ✅ Remove the quote immediately
+                iterator.remove();
                 break;
             }
         }
@@ -45,7 +45,7 @@ public class Representative extends User {
                     autoQuote.getVehicleModel(),
                     autoQuote.getVehicleYear(),
                     autoQuote.hasHomePolicyDiscount(),
-                    autoQuote.getTotalPremium() // ✅ Pass the already calculated premium
+                    autoQuote.getTotalPremium()
             );
         } else if (quote instanceof HomeQuote homeQuote) {
             return new HomeInsurance(
@@ -61,7 +61,7 @@ public class Representative extends User {
                     homeQuote.getHomeValue(),
                     homeQuote.getLiabilityLimit(),
                     homeQuote.hasAutoPolicyDiscount(),
-                    homeQuote.getTotalPremium() // ✅ Pass the already calculated premium
+                    homeQuote.getTotalPremium()
             );
         }
 
