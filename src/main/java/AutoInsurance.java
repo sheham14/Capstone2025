@@ -3,41 +3,23 @@ import java.time.LocalDate;
 public class AutoInsurance extends Policy {
     private int driverAge;
     private int accidents;
-    private String address;
     private String vehicleMake;
     private String vehicleModel;
     private int vehicleYear;
     private boolean hasHomePolicyDiscount;
 
-    public AutoInsurance(String policyId, Customer insuredPerson, LocalDate startDate, double basePremium, double taxRate,
-                         int driverAge, int accidents, String address, String vehicleMake, String vehicleModel,
-                         int vehicleYear, boolean hasHomePolicyDiscount) {
+    public AutoInsurance(String policyId, Customer insuredPerson, LocalDate startDate,
+                         double basePremium, double taxRate, int driverAge, int accidents,
+                         String vehicleMake, String vehicleModel, int vehicleYear,
+                         boolean hasHomePolicyDiscount, double totalPremium) {
         super(policyId, insuredPerson, startDate, basePremium, taxRate);
         this.driverAge = driverAge;
         this.accidents = accidents;
-        this.address = address;
         this.vehicleMake = vehicleMake;
         this.vehicleModel = vehicleModel;
         this.vehicleYear = vehicleYear;
         this.hasHomePolicyDiscount = hasHomePolicyDiscount;
-    }
-
-    @Override
-    public double calculatePremium() {
-        double driverAgeFactor = (driverAge < 25) ? 2.0 : 1.0;
-
-        double accidentFactor = (accidents > 2) ? 2.5 :
-                (accidents == 1) ? 1.25 : 1.0;
-
-        int currentYear = LocalDate.now().getYear();
-        int vehicleAge = currentYear - vehicleYear;
-        double vehicleAgeFactor = (vehicleAge > 10) ? 2.0 :
-                (vehicleAge > 5) ? 1.5 : 1.0;
-
-        double discountFactor = hasHomePolicyDiscount ? 0.9 : 1.0;
-
-        return getBasePremium() * driverAgeFactor * accidentFactor *
-                vehicleAgeFactor * discountFactor * getTaxRate();
+        setTotalPremium(totalPremium);
     }
 
     public int getDriverAge() {
@@ -54,14 +36,6 @@ public class AutoInsurance extends Policy {
 
     public void setAccidents(int accidents) {
         this.accidents = accidents;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public String getVehicleMake() {

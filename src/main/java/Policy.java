@@ -21,12 +21,6 @@ public abstract class Policy {
         insuredPerson.addPolicy(this);
     }
 
-    public abstract double calculatePremium();
-
-    public void updatePremium() {
-        this.totalPremium = calculatePremium();
-    }
-
     public double getTotalPremium() {
         return totalPremium;
     }

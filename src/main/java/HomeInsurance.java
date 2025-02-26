@@ -1,103 +1,43 @@
 import java.time.LocalDate;
 
 public class HomeInsurance extends Policy {
-    private int ageBuilt;
-    private String dwellingType; // standalone, bungalow, attached, semi-attached, etc.
-    private String heatingType; // oil, wood, other
-    private String location; // urban, rural
+    private int yearBuilt;
+    private String dwellingType;
+    private String heatingType;
+    private String location;
     private double homeValue;
-    private String liabilityLimit;
+    private double liabilityLimit;
     private boolean hasAutoPolicyDiscount;
 
     public HomeInsurance(String policyId, Customer insuredPerson, LocalDate startDate, double basePremium, double taxRate,
-                         int ageBuilt, String dwellingType, String heatingType, String location, double homeValue,
-                         String liabilityLimit, boolean hasAutoPolicyDiscount) {
+                         int yearBuilt, String dwellingType, String heatingType, String location, double homeValue,
+                         double liabilityLimit, boolean hasAutoPolicyDiscount, double totalPremium) {
         super(policyId, insuredPerson, startDate, basePremium, taxRate);
-        this.ageBuilt = ageBuilt;
+        this.yearBuilt = yearBuilt;
         this.dwellingType = dwellingType;
         this.heatingType = heatingType;
         this.location = location;
         this.homeValue = homeValue;
         this.liabilityLimit = liabilityLimit;
         this.hasAutoPolicyDiscount = hasAutoPolicyDiscount;
+        setTotalPremium(totalPremium);
     }
 
-    @Override
-    public double calculatePremium() {
-        // Home Value Factor
-        double homeValueFactor = (homeValue > 250000) ? (homeValue - 250000) * 0.002 : 0;
+    // Getters
+    public int getYearBuilt() { return yearBuilt; }
+    public String getDwellingType() { return dwellingType; }
+    public String getHeatingType() { return heatingType; }
+    public String getLocation() { return location; }
+    public double getHomeValue() { return homeValue; }
+    public double getLiabilityLimit() { return liabilityLimit; }
+    public boolean hasAutoPolicyDiscount() { return hasAutoPolicyDiscount; }
 
-        // Home Age Factor (from the image: 1.50 for ageBuilt = 1)
-        double homeAgeFactor = 1.50; // Hardcoded to match the image
-
-        // Heating Factor
-        double heatingFactor = heatingType.equals("oil") ? 2.0 : heatingType.equals("wood") ? 1.25 : 1.0;
-
-        // Location Factor
-        double locationFactor = location.equals("rural") ? 1.15 : 1.0;
-
-        // Discount Factor
-        double discountFactor = hasAutoPolicyDiscount ? 0.9 : 1.0;
-
-        // Premium Calculation
-        return (getBasePremium() + homeValueFactor) * homeAgeFactor *
-                heatingFactor * locationFactor * discountFactor * getTaxRate();
-    }
-
-    // Getters and Setters
-    public int getAgeBuilt() {
-        return ageBuilt;
-    }
-
-    public void setAgeBuilt(int ageBuilt) {
-        this.ageBuilt = ageBuilt;
-    }
-
-    public String getDwellingType() {
-        return dwellingType;
-    }
-
-    public void setDwellingType(String dwellingType) {
-        this.dwellingType = dwellingType;
-    }
-
-    public String getHeatingType() {
-        return heatingType;
-    }
-
-    public void setHeatingType(String heatingType) {
-        this.heatingType = heatingType;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public double getHomeValue() {
-        return homeValue;
-    }
-
-    public void setHomeValue(double homeValue) {
-        this.homeValue = homeValue;
-    }
-
-    public String getLiabilityLimit() {
-        return liabilityLimit;
-    }
-
-    public void setLiabilityLimit(String liabilityLimit) {
-        this.liabilityLimit = liabilityLimit;
-    }
-
-    public boolean isHasAutoPolicyDiscount() {
-        return hasAutoPolicyDiscount;
-    }
-
-    public void setHasAutoPolicyDiscount(boolean hasAutoPolicyDiscount) {
-        this.hasAutoPolicyDiscount = hasAutoPolicyDiscount;
-    }
+    // Setters
+    public void setYearBuilt(int yearBuilt) { this.yearBuilt = yearBuilt; }
+    public void setDwellingType(String dwellingType) { this.dwellingType = dwellingType; }
+    public void setHeatingType(String heatingType) { this.heatingType = heatingType; }
+    public void setLocation(String location) { this.location = location; }
+    public void setHomeValue(double homeValue) { this.homeValue = homeValue; }
+    public void setLiabilityLimit(double liabilityLimit) { this.liabilityLimit = liabilityLimit; }
+    public void setHasAutoPolicyDiscount(boolean hasAutoPolicyDiscount) { this.hasAutoPolicyDiscount = hasAutoPolicyDiscount; }
 }
