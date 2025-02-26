@@ -14,6 +14,5 @@ public abstract class User {
         this.username = username;
     }
 
-    // Abstract method (optional, for future extensibility)
     public abstract String getRole();
 }
