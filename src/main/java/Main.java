@@ -3,6 +3,8 @@ import java.time.LocalDate;
 public class Main {
     public static void main(String[] args) {
         Customer customer = new Customer("Squilliam William");
+        Representative rep = new Representative("Jimmy John");
+        System.out.println(rep.getUsername());
 
         System.out.println("=== Auto Insurance Test Cases ===");
 
