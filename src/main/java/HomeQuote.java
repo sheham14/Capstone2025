@@ -15,7 +15,6 @@ public class HomeQuote extends Quote {
                      double homeValue, double liabilityLimit, boolean hasAutoPolicyDiscount) {
         super(quoteId, insuredPerson, startDate, basePremium, taxRate);
 
-        // 🔹 Set properties first before calling updatePremium()
         this.yearBuilt = yearBuilt;
         this.dwellingType = (dwellingType != null) ? dwellingType : "unknown";
         this.heatingType = (heatingType != null) ? heatingType : "other";
@@ -41,7 +40,6 @@ public class HomeQuote extends Quote {
                 discountFactor * getTaxRate();
     }
 
-    // Getters
     public int getYearBuilt() { return yearBuilt; }
     public String getDwellingType() { return dwellingType; }
     public String getHeatingType() { return heatingType; }
