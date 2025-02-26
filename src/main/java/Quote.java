@@ -28,7 +28,6 @@ public abstract class Quote {
         this.totalPremium = calculatePremium();
     }
 
-    // Immutable getters only
     public String getQuoteId() { return quoteId; }
     public Customer getInsuredPerson() { return insuredPerson; }
     public LocalDate getStartDate() { return startDate; }
@@ -37,7 +36,6 @@ public abstract class Quote {
     public double getTaxRate() { return taxRate; }
     public double getTotalPremium() { return totalPremium; }
 
-    // Package-private setter for total premium
     void setTotalPremium(double totalPremium) {
         this.totalPremium = totalPremium;
     }
