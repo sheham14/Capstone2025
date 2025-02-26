@@ -22,7 +22,7 @@ public class Main {
         System.out.printf("Auto Insurance Premium (Test Case 3): $ %.2f%n", auto3.getTotalPremium());
 
         AutoInsurance auto4 = new AutoInsurance("AUTO4", customer, LocalDate.now(), 750.0, 1.15,
-                22, 1, "123 Main St", "Toyota", "Corolla", LocalDate.now().getYear() - 1, false);
+                22, 0, "123 Main St", "Toyota", "Corolla", LocalDate.now().getYear() - 1, false);
         auto4.updatePremium();
         System.out.printf("Auto Insurance Premium (Test Case 4 - Image): $ %.2f%n", auto4.getTotalPremium());
 
