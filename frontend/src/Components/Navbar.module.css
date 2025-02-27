@@ -1,0 +1,47 @@
+.navbarCustom {
+    background-color: #004080;
+    padding: 15px 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white !important;
+  }
+  
+  .brand:hover {
+    color: #ffd700 !important;
+  }
+  
+  .navLinks {
+    display: flex;
+    align-items: center;
+    list-style-type: none; /* Remove bullets */
+    padding: 0; /* Remove padding */
+
+  }
+  
+  .navItem {
+    font-size: 1.1rem;
+    color: white !important;
+    padding: 8px 15px;
+    transition: all 0.3s ease;
+  }
+  
+  .navItem:hover {
+    background-color: #ffd700;
+    color: #004080 !important;
+    border-radius: 5px;
+  }
+  
+  .navbar-toggler {
+    border: none;
+    background: none;
+  }
+  
+  .navbar-toggler:focus {
+    box-shadow: none;
+  }
+
+  
