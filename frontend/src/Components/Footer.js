@@ -1,13 +1,13 @@
 import React from 'react';
 
 const Footer = () => (
-  <footer className="footer">
+  <footer>
 
-    <div className="row mt-5">
+    <div>
         {/* Footer with social media links */}
-        <div className="col-12">
+        <div>
           <p>Follow us on social media:</p>
-          <div className="social-links">
+          <div>
             <ul>
                 <li>
                 <a href="https://facebook.com/joshtaylorinsurance" target="_blank" rel="noopener noreferrer">
@@ -26,8 +26,8 @@ const Footer = () => (
           </div>
         </div>
       </div>
-      <div className="container">
-      <span className="text-muted">Josh Taylor Insurance © 2025 | All Rights Reserved | www.JoshTaylorInsurance.com
+      <div>
+      <span>Josh Taylor Insurance © 2025 | All Rights Reserved | www.JoshTaylorInsurance.com
       Terms and Conditions | Privacy | Disclaimer</span>
     </div>
   </footer>
