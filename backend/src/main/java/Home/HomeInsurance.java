@@ -1,4 +1,9 @@
+package Home;
+
 import java.time.LocalDate;
+
+import Insurance.Policy;
+import User.Customer;
 
 public class HomeInsurance extends Policy {
     private Home insuredHome;

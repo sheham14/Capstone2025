@@ -1,4 +1,7 @@
+package Insurance;
 import java.time.LocalDate;
+
+import User.Customer;
 
 public abstract class Quote {
     private final String quoteId;

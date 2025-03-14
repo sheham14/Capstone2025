@@ -1,4 +1,8 @@
+package Auto;
 import java.time.LocalDate;
+
+import Insurance.Quote;
+import User.Customer;
 
 public class AutoQuote extends Quote {
     private final int driverAge;
