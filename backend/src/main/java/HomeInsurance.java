@@ -18,6 +18,10 @@ public class HomeInsurance extends Policy {
         setTotalPremium(totalPremium);
     }
 
+    public Home getHome() {
+        return this.insuredHome;
+    }
+
     public boolean hasAutoPolicyDiscount() {
         return hasAutoPolicyDiscount;
     }
