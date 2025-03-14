@@ -4,11 +4,12 @@ import java.util.List;
 
 import Auto.AutoInsurance;
 import Auto.AutoQuote;
+import Core.Policy;
+import Core.Quote;
+import Core.User;
 import Home.Home;
 import Home.HomeInsurance;
 import Home.HomeQuote;
-import Insurance.Policy;
-import Insurance.Quote;
 
 public class Customer extends User {
     private int age;

@@ -2,7 +2,7 @@ package Home;
 
 import java.time.LocalDate;
 
-import Insurance.Policy;
+import Core.Policy;
 import User.Customer;
 
 public class HomeInsurance extends Policy {

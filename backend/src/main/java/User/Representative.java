@@ -4,10 +4,11 @@ import java.util.Iterator;
 
 import Auto.AutoInsurance;
 import Auto.AutoQuote;
+import Core.Policy;
+import Core.Quote;
+import Core.User;
 import Home.HomeInsurance;
 import Home.HomeQuote;
-import Insurance.Policy;
-import Insurance.Quote;
 
 public class Representative extends User {
     public Representative(String username) {

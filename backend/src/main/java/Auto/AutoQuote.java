@@ -1,7 +1,7 @@
 package Auto;
 import java.time.LocalDate;
 
-import Insurance.Quote;
+import Core.Quote;
 import User.Customer;
 
 public class AutoQuote extends Quote {

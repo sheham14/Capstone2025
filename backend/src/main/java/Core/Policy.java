@@ -1,4 +1,4 @@
-package Insurance;
+package Core;
 import java.time.LocalDate;
 
 import User.Customer;

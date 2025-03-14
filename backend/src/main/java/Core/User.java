@@ -1,4 +1,4 @@
-package User;
+package Core;
 public abstract class User {
     private String username;
 

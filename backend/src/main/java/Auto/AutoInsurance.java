@@ -1,7 +1,7 @@
 package Auto;
 import java.time.LocalDate;
 
-import Insurance.Policy;
+import Core.Policy;
 import User.Customer;
 
 public class AutoInsurance extends Policy {

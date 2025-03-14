@@ -1,7 +1,7 @@
 package Home;
 import java.time.LocalDate;
 
-import Insurance.Quote;
+import Core.Quote;
 import User.Customer;
 
 public class HomeQuote extends Quote {
