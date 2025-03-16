@@ -4,6 +4,8 @@ import java.time.Year;
 /**
  * Represents a Home for use in the TaylorInsurance quoting system. contains all
  * the necessary methods and constructors
+ * 
+ * @author Parker Wallace
  */
 public class Home {
     private Year yearBuilt;
