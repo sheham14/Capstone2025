@@ -1,4 +1,8 @@
+package Home;
 import java.time.LocalDate;
+
+import Core.Quote;
+import User.Customer;
 
 public class HomeQuote extends Quote {
     private int yearBuilt;

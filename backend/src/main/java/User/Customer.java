@@ -1,5 +1,15 @@
+package User;
 import java.util.ArrayList;
 import java.util.List;
+
+import Auto.AutoInsurance;
+import Auto.AutoQuote;
+import Core.Policy;
+import Core.Quote;
+import Core.User;
+import Home.Home;
+import Home.HomeInsurance;
+import Home.HomeQuote;
 
 public class Customer extends User {
     private int age;
@@ -106,13 +116,14 @@ public class Customer extends User {
                 System.out.println("Home Policy Discount: " + autoPolicy.isHasHomePolicyDiscount());
             } else if (policy instanceof HomeInsurance) {
                 HomeInsurance homePolicy = (HomeInsurance) policy;
+                Home insuredHome = homePolicy.getHome();
                 System.out.println("Type: Home Insurance");
-                System.out.println("Age Built: " + homePolicy.getYearBuilt());
-                System.out.println("Dwelling Type: " + homePolicy.getDwellingType());
-                System.out.println("Heating Type: " + homePolicy.getHeatingType());
-                System.out.println("Location: " + homePolicy.getLocation());
-                System.out.println("Home Value: $" + homePolicy.getHomeValue());
-                System.out.println("Liability Limit: " + homePolicy.getLiabilityLimit());
+                System.out.println("Age Built: " + insuredHome.getYearBuilt());
+                System.out.println("Dwelling Type: " + insuredHome.getDwellingType());
+                System.out.println("Heating Type: " + insuredHome.getHeatingType());
+                System.out.println("Location: " + insuredHome.getLocationType());
+                System.out.println("Home Value: $" + insuredHome.getHomeValue());
+                System.out.println("Liability Limit: " + insuredHome.getLiabilityLimit());
                 System.out.println("Auto Policy Discount: " + homePolicy.hasAutoPolicyDiscount());
             }
 

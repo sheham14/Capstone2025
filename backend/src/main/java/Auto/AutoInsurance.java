@@ -1,4 +1,8 @@
+package Auto;
 import java.time.LocalDate;
+
+import Core.Policy;
+import User.Customer;
 
 public class AutoInsurance extends Policy {
     private int driverAge;

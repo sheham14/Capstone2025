@@ -1,4 +1,7 @@
+package Core;
 import java.time.LocalDate;
+
+import User.Customer;
 
 public abstract class Policy {
     private String policyId;

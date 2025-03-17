@@ -1,5 +1,14 @@
+package User;
 import java.time.LocalDate;
 import java.util.Iterator;
+
+import Auto.AutoInsurance;
+import Auto.AutoQuote;
+import Core.Policy;
+import Core.Quote;
+import Core.User;
+import Home.HomeInsurance;
+import Home.HomeQuote;
 
 public class Representative extends User {
     public Representative(String username) {
