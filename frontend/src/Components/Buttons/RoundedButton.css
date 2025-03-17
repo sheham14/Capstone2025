@@ -1,0 +1,97 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Basic container styles */
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Flexbox-based layout for grid */
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns for large screens */
+    gap: 1rem;
+    margin-top: 20px;
+  }
+  
+  /* Responsive Layout for smaller screens */
+  @media (max-width: 768px) {
+    .grid-container {
+      grid-template-columns: repeat(2, 1fr); /* 2 columns for medium screens */
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .grid-container {
+      grid-template-columns: 1fr; /* 1 column for small screens (mobile) */
+    }
+  }
+  
+  /* Button Styling */
+  .rounded-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4% 8%; /* Use percentage padding to scale based on screen size */
+    background-color: #007bff00;
+    border: none;
+    border-radius: 50px; /* Round the button */
+    color: rgb(0, 0, 0);
+    font-size: 2vw; /* Make the font size relative to the viewport width */
+    width: auto;
+    max-width: 90%; /* Restrict button width */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .rounded-btn:hover {
+    .icon-container{
+        border-radius: 0%;
+    }
+    /* background-color: #0056b3; Change color on hover */
+  }
+  
+  /* Icon Container for scaling icon */
+  .icon-container {
+    width: 40%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+    border: 2px solid black;
+    border-radius: 50%;
+  }
+  
+  .icon {
+    width: 100%;
+    max-width: 60%; /* Ensure the icon doesn't take up too much space */
+    height: auto;
+  }
+  
+  /* Button text */
+  .btn-text {
+    flex-grow: 1;
+    text-align: center;
+    white-space: nowrap;
+  }
+  
+  /* Adjustments for small screens */
+  @media (max-width: 576px) {
+    .rounded-btn {
+      font-size: 5vw; /* Adjust font size to be responsive on mobile */
+      padding: 5% 10%;
+    }
+  
+    .icon-container {
+      width: 60%; /* Make the icon slightly bigger on mobile */
+    }
+  }
+  
