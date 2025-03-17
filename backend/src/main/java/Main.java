@@ -1,5 +1,10 @@
 import java.time.LocalDate;
 
+import Auto.AutoQuote;
+import Home.HomeQuote;
+import User.Customer;
+import User.Representative;
+
 public class Main {
     public static void main(String[] args) {
         Representative rep = new Representative("Jimmy John");
