@@ -1,27 +1,31 @@
 package Auto;
-import java.time.LocalDate;
 
+import java.time.LocalDate;
+import java.time.Year;
 import Core.Policy;
 import User.Customer;
 
+
 public class AutoInsurance extends Policy {
     private int driverAge;
-    private int accidents;
-    private String vehicleMake;
-    private String vehicleModel;
-    private int vehicleYear;
+    private Automobile insuredVehicle;
     private boolean hasHomePolicyDiscount;
 
-    public AutoInsurance(String policyId, Customer insuredPerson, LocalDate startDate,
-                         double basePremium, double taxRate, int driverAge, int accidents,
-                         String vehicleMake, String vehicleModel, int vehicleYear,
-                         boolean hasHomePolicyDiscount, double totalPremium) {
+    public AutoInsurance(String policyId, 
+    Customer insuredPerson, 
+    LocalDate startDate,
+    double basePremium, 
+    double taxRate, 
+    int driverAge, 
+    int accidents,
+    String vehicleMake, 
+    String vehicleModel, 
+    Year vehicleYear,
+    boolean hasHomePolicyDiscount, 
+    double totalPremium) {
         super(policyId, insuredPerson, startDate, basePremium, taxRate);
         this.driverAge = driverAge;
-        this.accidents = accidents;
-        this.vehicleMake = vehicleMake;
-        this.vehicleModel = vehicleModel;
-        this.vehicleYear = vehicleYear;
+        this.insuredVehicle = new Automobile(vehicleMake, vehicleModel, vehicleYear, accidents);
         this.hasHomePolicyDiscount = hasHomePolicyDiscount;
         setTotalPremium(totalPremium);
     }
@@ -34,38 +38,9 @@ public class AutoInsurance extends Policy {
         this.driverAge = driverAge;
     }
 
-    public int getAccidents() {
-        return accidents;
+    public Automobile getInsuredVehicle() {
+        return this.insuredVehicle;
     }
-
-    public void setAccidents(int accidents) {
-        this.accidents = accidents;
-    }
-
-    public String getVehicleMake() {
-        return vehicleMake;
-    }
-
-    public void setVehicleMake(String vehicleMake) {
-        this.vehicleMake = vehicleMake;
-    }
-
-    public String getVehicleModel() {
-        return vehicleModel;
-    }
-
-    public void setVehicleModel(String vehicleModel) {
-        this.vehicleModel = vehicleModel;
-    }
-
-    public int getVehicleYear() {
-        return vehicleYear;
-    }
-
-    public void setVehicleYear(int vehicleYear) {
-        this.vehicleYear = vehicleYear;
-    }
-
     public boolean isHasHomePolicyDiscount() {
         return hasHomePolicyDiscount;
     }
