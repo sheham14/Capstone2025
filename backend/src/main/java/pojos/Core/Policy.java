@@ -21,7 +21,7 @@ public abstract class Policy {
         this.taxRate = taxRate;
         this.totalPremium = 0.0;
 
-        insuredPerson.addPolicy(this);
+        // insuredPerson.addPolicy(this);
     }
 
     public double getTotalPremium() {

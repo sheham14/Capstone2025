@@ -39,41 +39,6 @@ public class Representative extends User {
     }
 
     private Policy createPolicyFromQuote(Quote quote) {
-        LocalDate policyStart = LocalDate.now();
-
-        if (quote instanceof AutoQuote autoQuote) {
-            return new AutoInsurance(
-                    "AUTO-" + autoQuote.getQuoteId(),
-                    autoQuote.getInsuredPerson(),
-                    policyStart,
-                    autoQuote.getBasePremium(),
-                    autoQuote.getTaxRate(),
-                    autoQuote.getDriverAge(),
-                    autoQuote.getAccidents(),
-                    autoQuote.getVehicleMake(),
-                    autoQuote.getVehicleModel(),
-                    autoQuote.getVehicleYear(),
-                    autoQuote.hasHomePolicyDiscount(),
-                    autoQuote.getTotalPremium()
-            );
-        } else if (quote instanceof HomeQuote homeQuote) {
-            return new HomeInsurance(
-                    "HOME-" + homeQuote.getQuoteId(),
-                    homeQuote.getInsuredPerson(),
-                    policyStart,
-                    homeQuote.getBasePremium(),
-                    homeQuote.getTaxRate(),
-                    homeQuote.getYearBuilt(),
-                    homeQuote.getDwellingType(),
-                    homeQuote.getHeatingType(),
-                    homeQuote.getLocation(),
-                    homeQuote.getHomeValue(),
-                    homeQuote.getLiabilityLimit(),
-                    homeQuote.hasAutoPolicyDiscount(),
-                    homeQuote.getTotalPremium()
-            );
-        }
-
         return null;
     }
 

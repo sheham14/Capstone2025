@@ -94,43 +94,6 @@ public class Customer extends User {
         return false;
     }
 
-    public void printPolicies() {
-        System.out.println(getUsername() + "'s Policies");
-        System.out.println("________");
-        for (Policy policy : policies) {
-            System.out.println("Policy ID: " + policy.getPolicyId());
-            System.out.println("Start Date: " + policy.getStartDate());
-            System.out.println("End Date: " + policy.getEndDate());
-            System.out.println("Base Premium: $" + policy.getBasePremium());
-            System.out.println("Tax Rate: " + policy.getTaxRate());
-            System.out.println("Total Premium: $" + String.format("%.2f", policy.getTotalPremium()));
-
-            if (policy instanceof AutoInsurance) {
-                AutoInsurance autoPolicy = (AutoInsurance) policy;
-                System.out.println("Type: Auto Insurance");
-                System.out.println("Driver Age: " + autoPolicy.getDriverAge());
-                System.out.println("Accidents: " + autoPolicy.getAccidents());
-                System.out.println("Vehicle Make: " + autoPolicy.getVehicleMake());
-                System.out.println("Vehicle Model: " + autoPolicy.getVehicleModel());
-                System.out.println("Vehicle Year: " + autoPolicy.getVehicleYear());
-                System.out.println("Home Policy Discount: " + autoPolicy.isHasHomePolicyDiscount());
-            } else if (policy instanceof HomeInsurance) {
-                HomeInsurance homePolicy = (HomeInsurance) policy;
-                Home insuredHome = homePolicy.getHome();
-                System.out.println("Type: Home Insurance");
-                System.out.println("Age Built: " + insuredHome.getYearBuilt());
-                System.out.println("Dwelling Type: " + insuredHome.getDwellingType());
-                System.out.println("Heating Type: " + insuredHome.getHeatingType());
-                System.out.println("Location: " + insuredHome.getLocationType());
-                System.out.println("Home Value: $" + insuredHome.getHomeValue());
-                System.out.println("Liability Limit: " + insuredHome.getLiabilityLimit());
-                System.out.println("Auto Policy Discount: " + homePolicy.hasAutoPolicyDiscount());
-            }
-
-            System.out.println("-----------------------------");
-        }
-    }
-
     public void addQuote(Quote quote) {
         if (!quotes.contains(quote)) {
             quotes.add(quote);
