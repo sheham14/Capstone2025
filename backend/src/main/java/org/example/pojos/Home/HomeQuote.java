@@ -1,8 +1,8 @@
-package com.example.pojos.Home;
+package org.example.pojos.Home;
 import java.time.LocalDate;
 
-import com.example.pojos.Core.Quote;
-import com.example.pojos.User.Customer;
+import org.example.pojos.Core.Quote;
+import org.example.pojos.User.Customer;
 
 public class HomeQuote extends Quote {
     private int yearBuilt;

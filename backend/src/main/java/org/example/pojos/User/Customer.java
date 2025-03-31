@@ -1,12 +1,12 @@
-package com.example.pojos.User;
+package org.example.pojos.User;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.pojos.Auto.AutoQuote;
-import com.example.pojos.Core.Policy;
-import com.example.pojos.Core.Quote;
-import com.example.pojos.Core.User;
-import com.example.pojos.Home.HomeQuote;
+import org.example.pojos.Auto.AutoQuote;
+import org.example.pojos.Core.Policy;
+import org.example.pojos.Core.Quote;
+import org.example.pojos.Core.User;
+import org.example.pojos.Home.HomeQuote;
 
 public class Customer extends User {
     private int age;

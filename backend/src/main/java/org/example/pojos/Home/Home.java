@@ -1,4 +1,4 @@
-package com.example.pojos.Home;
+package org.example.pojos.Home;
 
 import jakarta.persistence.*;
 import java.time.Year;

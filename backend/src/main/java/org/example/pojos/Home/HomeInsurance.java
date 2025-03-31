@@ -1,9 +1,9 @@
-package com.example.pojos.Home;
+package org.example.pojos.Home;
 
 import java.time.LocalDate;
 
-import com.example.pojos.Core.Policy;
-import com.example.pojos.User.Customer;
+import org.example.pojos.Core.Policy;
+import org.example.pojos.User.Customer;
 
 public class HomeInsurance extends Policy {
     private Home insuredHome;

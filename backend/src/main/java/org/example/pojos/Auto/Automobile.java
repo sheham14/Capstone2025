@@ -1,4 +1,4 @@
-package com.example.pojos.Auto;
+package org.example.pojos.Auto;
 
 import java.time.Year;
 

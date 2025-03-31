@@ -1,9 +1,9 @@
-package com.example.pojos.User;
+package org.example.pojos.User;
 import java.util.Iterator;
 
-import com.example.pojos.Core.Policy;
-import com.example.pojos.Core.Quote;
-import com.example.pojos.Core.User;
+import org.example.pojos.Core.Policy;
+import org.example.pojos.Core.Quote;
+import org.example.pojos.Core.User;
 
 public class Representative extends User {
     public Representative(String username) {
