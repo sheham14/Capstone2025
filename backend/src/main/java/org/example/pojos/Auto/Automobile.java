@@ -1,5 +1,9 @@
 package org.example.pojos.Auto;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
 import java.time.Year;
 
 /**
@@ -7,17 +11,26 @@ import java.time.Year;
  * 
  * @author Parker Wallace
  */
+@Entity
 public class Automobile {
     private String vehicleMake;
     private String vehicleModel;
     private Year vehicleYear;
     private int numberofAccidents;
 
+    @Id
+    @GeneratedValue
+    private Long id;
+
     public Automobile(String make, String model, Year year, int accidents) {
         this.numberofAccidents = accidents;
         this.vehicleMake = make;
         this.vehicleModel = model;
         this.vehicleYear = year;
+    }
+
+    public Automobile() {
+
     }
 
     /**
@@ -84,4 +97,11 @@ public class Automobile {
         this.numberofAccidents = numberofAccidents;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
 }

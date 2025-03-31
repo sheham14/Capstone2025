@@ -1,6 +1,8 @@
 package org.example.pojos.Home;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 import java.time.Year;
 
 /**
@@ -10,7 +12,6 @@ import java.time.Year;
  * @author Parker Wallace 
  */
 @Entity
-@Table(name = "homes")
 public class Home {
     
     /**
@@ -20,43 +21,39 @@ public class Home {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long userId;
+
     /**
      * The year the home was built.
      */
-    @Column(name = "year_built", nullable = false)
-    private int yearBuilt;
+    private LocalDate dateBuilt;
 
     /**
      * The estimated value of the home.
      */
-    @Column(name = "home_value", nullable = false)
-    private double homeValue;
+     private double homeValue;
 
     /**
      * The liability limit associated with the home.
      */
-    @Column(name = "liability_limit", nullable = false)
     private double liabilityLimit;
 
     /**
      * The type of dwelling (e.g., BUNGALOW, STANDALONE).
      */
     @Enumerated(EnumType.STRING)
-    @Column(name = "dwelling_type", nullable = false)
     private DWELLINGTYPE dwellingType;
 
     /**
      * The type of heating used in the home (e.g., GAS, OIL, ELECTRIC).
      */
     @Enumerated(EnumType.STRING)
-    @Column(name = "heating_type", nullable = false)
     private HEATINGTYPE heatingType;
 
     /**
      * The location type of the home (e.g., RURAL, URBAN).
      */
     @Enumerated(EnumType.STRING)
-    @Column(name = "location_type", nullable = false)
     private LOCATIONTYPE locationType;
 
     /**
@@ -67,16 +64,16 @@ public class Home {
     /**
      * Constructs a new Home object with specified attributes.
      * 
-     * @param yearBuilt The year the home was built.
+     * @param dateBuilt The year the home was built.
      * @param homeValue The estimated value of the home.
      * @param liabilityLimit The liability limit associated with the home.
      * @param dwellingType The type of dwelling.
      * @param heatingType The type of heating used.
      * @param locationType The location type of the home.
      */
-    public Home(Year yearBuilt, double homeValue, double liabilityLimit, DWELLINGTYPE dwellingType,
+    public Home(LocalDate dateBuilt, double homeValue, double liabilityLimit, DWELLINGTYPE dwellingType,
                 HEATINGTYPE heatingType, LOCATIONTYPE locationType) {
-        this.yearBuilt = yearBuilt.getValue();
+        this.dateBuilt = dateBuilt;
         this.homeValue = homeValue;
         this.liabilityLimit = liabilityLimit;
         this.dwellingType = dwellingType;
@@ -109,13 +106,13 @@ public class Home {
      * Gets the year the home was built.
      * @return The year built.
      */
-    public int getYearBuilt() { return yearBuilt; }
+    public LocalDate getDateBuilt() { return dateBuilt; }
 
     /**
      * Sets the year the home was built.
      * @param yearBuilt The year built.
      */
-    public void setYearBuilt(Year yearBuilt) { this.yearBuilt = yearBuilt.getValue(); }
+    public void setDateBuilt(LocalDate yearBuilt) { this.dateBuilt = yearBuilt; }
 
     /**
      * Gets the estimated value of the home.
