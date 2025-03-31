@@ -1,8 +1,8 @@
-package pojos.Auto;
+package com.example.pojos.Auto;
 import java.time.LocalDate;
 
-import pojos.Core.Quote;
-import pojos.User.Customer;
+import com.example.pojos.Core.Quote;
+import com.example.pojos.User.Customer;
 
 public class AutoQuote extends Quote {
     private final int driverAge;

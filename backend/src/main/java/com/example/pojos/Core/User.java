@@ -1,4 +1,4 @@
-package pojos.Core;
+package com.example.pojos.Core;
 public abstract class User {
     private String username;
 

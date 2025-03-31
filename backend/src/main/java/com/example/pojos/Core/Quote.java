@@ -1,7 +1,7 @@
-package pojos.Core;
+package com.example.pojos.Core;
 import java.time.LocalDate;
 
-import pojos.User.Customer;
+import com.example.pojos.User.Customer;
 
 public abstract class Quote {
     private final String quoteId;

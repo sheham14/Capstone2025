@@ -1,9 +1,9 @@
-package pojos.Auto;
+package com.example.pojos.Auto;
 
 import java.time.LocalDate;
 import java.time.Year;
-import pojos.Core.Policy;
-import pojos.User.Customer;
+import com.example.pojos.Core.Policy;
+import com.example.pojos.User.Customer;
 
 
 public class AutoInsurance extends Policy {

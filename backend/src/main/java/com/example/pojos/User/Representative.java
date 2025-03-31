@@ -1,14 +1,9 @@
-package pojos.User;
-import java.time.LocalDate;
+package com.example.pojos.User;
 import java.util.Iterator;
 
-import pojos.Auto.AutoInsurance;
-import pojos.Auto.AutoQuote;
-import pojos.Core.Policy;
-import pojos.Core.Quote;
-import pojos.Core.User;
-import pojos.Home.HomeInsurance;
-import pojos.Home.HomeQuote;
+import com.example.pojos.Core.Policy;
+import com.example.pojos.Core.Quote;
+import com.example.pojos.Core.User;
 
 public class Representative extends User {
     public Representative(String username) {
