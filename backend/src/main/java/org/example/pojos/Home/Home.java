@@ -5,9 +5,10 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.Year;
 
+import org.example.pojos.Core.User;
+
 /**
- * Represents a home entity with various attributes such as year built,
- * home value, liability limit, dwelling type, heating type, and location type.
+ * Represents a home entity with various attributes
  * 
  * @author Parker Wallace 
  */
@@ -19,9 +20,11 @@ public class Home {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     /**
      * The year the home was built.
@@ -100,7 +103,7 @@ public class Home {
      * Gets the unique identifier of the home.
      * @return The home ID.
      */
-    public Long getId() { return id; }
+    public Integer getId() { return id; }
 
     /**
      * Gets the year the home was built.
