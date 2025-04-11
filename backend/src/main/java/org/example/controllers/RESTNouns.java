@@ -7,6 +7,7 @@ package org.example.controllers;
 public class RESTNouns {
     // USER MANAGEMENT
     public static final String TOKEN = "/{token}";
+    public static final String LOGIN = "/login";
     public static final String USER = "/users";
     public static final String ID = "/{id}";
     public static final String HOME = "/homes";
