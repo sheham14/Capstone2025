@@ -1,7 +1,19 @@
 package org.example.pojos.Core;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MappedSuperclass;
+
+
+@MappedSuperclass
 public abstract class Policy {
 
     public enum POLICYVIEWINGTYPE {
@@ -9,14 +21,32 @@ public abstract class Policy {
         POLICY
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User policyOwner;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
+    
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
+    
     private double basePremium;
+    
     private double taxRate;
+    
     private double totalPremium;
+    
     private boolean active; 
+    
+    @Enumerated(EnumType.ORDINAL)
     private POLICYVIEWINGTYPE viewingType ;
+
+public Policy() {}
 
    public Policy(
    User policyOwner, 
@@ -83,4 +113,21 @@ public abstract class Policy {
    public void setTotalPremium(double totalPremium) {
        this.totalPremium = totalPremium;
    }
+
+   public boolean getActiveStatus() {
+    return this.active;
+   }
+
+   public void setActiveStatus(boolean activeStatus) {
+    this.active = activeStatus;
+   }
+
+   public POLICYVIEWINGTYPE getViewingType() {
+    return this.viewingType;
+   }
+
+public void setViewingType(POLICYVIEWINGTYPE viewingType) {
+    this.viewingType = viewingType;
+}
+
 }
