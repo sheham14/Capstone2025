@@ -2,7 +2,6 @@ package org.example.controllers;
 
 import org.example.dataaccess.TokenRepository;
 import org.example.dataaccess.UserRepository;
-import org.example.pojos.Core.ApiResponse;
 import org.example.pojos.Core.LoginToken;
 import org.example.pojos.Core.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +56,7 @@ public class UserController {
     }
 
     /**
-     * Post Mapping for a new users
+     * Post Mapping for a new customers
      * @param name name
      * @param email email
      * @return
@@ -69,11 +68,7 @@ public class UserController {
             @RequestParam String password,
             @RequestParam LocalDate dateofBirth) {
                 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-                User user = new User();
-                user.setUsername(name);
-                user.setEmail(email);
-                user.setDateOfBirth(dateofBirth);
-                user.setPassword(encoder.encode(password));
+                User user = new User(name, email, encoder.encode(password), dateofBirth);   
                 user.setRole(User.Role.CUSTOMER);
                 userRepository.save(user);
         return HttpStatus.CREATED;
