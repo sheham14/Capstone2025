@@ -1,20 +1,20 @@
 package org.example.dataaccess;
 
-import org.example.pojos.Home.Home;
+import org.example.pojos.Home.HomeInsurance;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
  * Home Repository interface that will be used by String to create a bean that handles all the CRUD operations
  */
-public interface HomeRepository extends CrudRepository<Home, Long> {
+public interface HomePoliciesRepository extends CrudRepository<HomeInsurance, Integer> {
 
     /**
      * Get all homes for a user
-     * @param userId
+     * @param id
      * @return
      */
-    Iterable<Home> getAllByUserId(Long userId);
+    Iterable<HomeInsurance> getAllById(Integer id);
 
     //Note: I am surprised this works! Spring detects it and fills in the method. Crazy.
     //If this didn't work I would have retrieved all the homes and looped through and grab the homes that
