@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import jakarta.persistence.*;
 
@@ -13,7 +14,7 @@ import jakarta.persistence.*;
 public class LoginToken {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String token;
+    private UUID token;
 
     @ManyToOne
     @JoinColumn(name= "user_id")
@@ -23,11 +24,15 @@ public class LoginToken {
 
     public LoginToken() {}
 
-    public String getToken() {
+    public UUID getToken() {
         return this.token;
     }
 
     public void setTokenOwner (User user) {
         this.user = user;
+    }
+
+    public User getTokenOwner () {
+        return this.user;
     }
 }
