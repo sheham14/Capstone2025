@@ -2,6 +2,7 @@ package org.example.controllers;
 
 import org.example.dataaccess.TokenRepository;
 import org.example.dataaccess.UserRepository;
+import org.example.pojos.Core.ApiResponse;
 import org.example.pojos.Core.LoginToken;
 import org.example.pojos.Core.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +16,15 @@ import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 
-@Controller
+@RestController
 @RequestMapping(path = RESTNouns.USER)
 public class UserController {
     @Autowired private UserRepository userRepository;
     @Autowired private TokenRepository tokenRepository;
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/login")
-    public @ResponseBody UUID createAuthToken(@RequestParam String email, @RequestParam String password) {
+    public UUID createAuthToken(@RequestParam String email, @RequestParam String password) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         User user = userRepository.getUserByEmail(email);
         if (user == null || !encoder.matches(password, user.getPassword())) {
@@ -61,7 +63,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/register")
-    public @ResponseBody User createCustomer(
+    public HttpStatus createCustomer(
             @RequestParam String name, 
             @RequestParam String email, 
             @RequestParam String password,
@@ -73,7 +75,8 @@ public class UserController {
                 user.setDateOfBirth(dateofBirth);
                 user.setPassword(encoder.encode(password));
                 user.setRole(User.Role.CUSTOMER);
-        return userRepository.save(user);
+                userRepository.save(user);
+        return HttpStatus.CREATED;
     }
 
     /**
