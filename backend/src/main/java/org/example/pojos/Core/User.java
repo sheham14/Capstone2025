@@ -42,6 +42,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    private boolean activeStatus;
+
     /**
      * Default contructor required by JPA.
      */
@@ -52,10 +54,11 @@ public class User {
      * @param username the username for the user.
      * @param email the email contact for the user.
      */
-    public User(String username, String email, String password) {
+    public User(String username, String email, String password, LocalDate dateOfBirth) {
         this.email = email;
         this.username = username;
         this.password = password;
+        this.dateOfBirth = dateOfBirth;
     }
     
     // GETTERS AND SETTERS
@@ -122,5 +125,13 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public boolean activeStatus() {
+        return this.activeStatus;
+    }
+
+    public void setActiveStatus(boolean activeStatus) {
+        this.activeStatus = activeStatus;
     }
 }
