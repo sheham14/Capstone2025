@@ -22,7 +22,7 @@ public class UserController {
     @Autowired private TokenRepository tokenRepository;
 
     @PostMapping("/login")
-    public @ResponseBody String createAuthToken(@RequestParam String email, @RequestParam String password) {
+    public @ResponseBody UUID createAuthToken(@RequestParam String email, @RequestParam String password) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         User user = userRepository.getUserByEmail(email);
         if (user == null || !encoder.matches(password, user.getPassword())) {
