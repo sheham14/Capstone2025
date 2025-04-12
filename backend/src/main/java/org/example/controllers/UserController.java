@@ -21,20 +21,19 @@ public class UserController {
     @Autowired private UserRepository userRepository;
     @Autowired private TokenRepository tokenRepository;
 
-    @PostMapping(path = RESTNouns.LOGIN)
+    @PostMapping("/login")
     public @ResponseBody String createAuthToken(@RequestParam String email, @RequestParam String password) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         User user = userRepository.getUserByEmail(email);
         if (user == null || !encoder.matches(password, user.getPassword())) {
             return null; 
         }
-        String token = UUID.randomUUID().toString();
         LoginToken loginToken = new LoginToken();
-        loginToken.setToken(token);
+
         loginToken.setTokenOwner(user);
         tokenRepository.save(loginToken);
 
-        return token;
+        return loginToken.getToken();
     }
 
     /**

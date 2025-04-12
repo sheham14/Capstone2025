@@ -12,6 +12,7 @@ import jakarta.persistence.*;
 @Entity
 public class LoginToken {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String token;
 
     @ManyToOne
@@ -24,10 +25,6 @@ public class LoginToken {
 
     public String getToken() {
         return this.token;
-    }
-    
-    public void setToken(String token) {
-        this.token = token;
     }
 
     public void setTokenOwner (User user) {
