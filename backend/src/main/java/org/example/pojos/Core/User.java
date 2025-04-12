@@ -30,9 +30,13 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    
     private String username;
+    
     private String email;
+    
     private LocalDate dateOfBirth;
+    
     private String password;
 
     @Enumerated(EnumType.STRING)
