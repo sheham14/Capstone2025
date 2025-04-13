@@ -7,6 +7,8 @@ import java.time.Year;
 
 import org.example.pojos.Core.User;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**
  * Represents a home entity with various attributes
  * 
@@ -18,6 +20,7 @@ public class Home {
     /**
      * The year the home was built.
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateBuilt;
 
     /**

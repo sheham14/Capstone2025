@@ -1,12 +1,9 @@
 package org.example.pojos.Core;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.*;
 
@@ -20,6 +17,7 @@ public class LoginToken {
     @JoinColumn(name= "user_id")
     private User user;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createdAt = LocalDateTime.now();
 
     public LoginToken() {}

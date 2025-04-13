@@ -49,4 +49,5 @@ public class HomeInsurance extends Policy {
    public void setHasAutoPolicyDiscount(boolean hasAutoPolicyDiscount) {
        this.hasAutoPolicyDiscount = hasAutoPolicyDiscount;
    }
+
 }

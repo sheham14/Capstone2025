@@ -1,5 +1,6 @@
 package org.example.controllers;
 
+import org.example.dataaccess.AutoPoliciesRepository;
 import org.example.dataaccess.HomePoliciesRepository;
 import org.example.dataaccess.TokenRepository;
 import org.example.pojos.Home.Home;
@@ -25,6 +26,7 @@ public class MainController {
 
     @Autowired private TokenRepository tokenRepository;
     @Autowired private HomePoliciesRepository homePoliciesRepository;
+    @Autowired private AutoPoliciesRepository autoPoliciesRepository;
 
     @PostMapping("/HomePolicy")
     public @ResponseBody HomeInsurance addHomeInsurance(@PathVariable("token") UUID token, @ModelAttribute HomeInsurance policy ) {
@@ -33,11 +35,14 @@ public class MainController {
         return homePoliciesRepository.save(homeInsurancePolicy);
     }
 
-    @GetMapping("/activepolicies")
+    @GetMapping("/allpolicies")
     public UserPoliciesResponse getAllActivePolicies(@PathVariable("token") UUID token) {
         User user = tokenRepository.Token(token).getTokenOwner();
-        Iterable<HomeInsurance> homePolicies = homePoliciesRepository.findByUser(user);
-        Iterable<AutoInsurance> autoPolicies = autoPoliciesRepository.findByUser(user);
+        Iterable<HomeInsurance> homePolicies = homePoliciesRepository.findBypolicyOwner(user);
+        Iterable<AutoInsurance> autoPolicies = autoPoliciesRepository.findBypolicyOwner(user);
+        UserPoliciesResponse allPoliciesResponse = new UserPoliciesResponse(homePolicies, autoPolicies);
+        return allPoliciesResponse;
     }
 
+    
 }
