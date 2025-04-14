@@ -3,12 +3,28 @@ Authored by Parker Wallace
 
 > This document seeks to accuratley document the Java RESTful API as Designed for the Josh Taylor Insurance Application and contains all endpoints, response and request examples.
 
-## /Users/register
+# Table Of Contents
+|Function|Endpoint|
+|---|---|
+|[Register Users](#register)|`/register`|
+|[Login Users](#login)|`/register`|
+|[create a home insurance policy](#tokenhomepolicy)|`/{TOKEN}/homepolicy`|
+|[create a home insurance quote](#tokenhomequote)|`{TOKEN}/homequote`|
+|[create an auto insurance policy](#tokenautopolicy)|`/{TOKEN}/autopolicy`|
+|[create an auto insurance quote](#tokenautoquote)|`/{TOKEN}/autoquote`|
+|[retrieve all policies for any given user](#tokenalluserpolicies)|`{TOKEN}/alluserpolicies`|
+|[retrieve all policies for any given user](#tokenalluserpolicies)|`{TOKEN}/alluserpolicies`|
+|[retrieve all auto insurance policies for any given user](#tokenallautopolicies)|`/{TOKEN}/alluserautopoliicies`|
+
+
+
+## /register
 
 ## Description
 utilized for creating a user account for use in the system
 
 ## Request Body (Form Data)
+
 |Field|Type|Example|Description|
 |---|---|---|---|
 |email|String|Test@notarealdomain.net|the user email for the user|
@@ -18,48 +34,57 @@ utilized for creating a user account for use in the system
 
 
 ## Example Request
+
 ```plainText
-POST /Users/register
+POST /register
 Content-Type: application/x-www-form-urlencoded
 
 email=Test@notarealdomain.net&password=Password1&name=Parker%20Wallace&dateofBirth=2002-12-31
 ```
 
 ```bash
-curl -X POST localhost:8080/users/register -d "name=parker" -d "password=Password1" -d "email=parker@gmail.com" -d "dateofBirth=2001-09-26"
+curl -X POST localhost:8080/register -d "name=parker" -d "password=Password1" -d "email=parker@gmail.com" -d "dateofBirth=2001-09-26"
 ```
+
 ## Example Response
+
 ```
 "CREATED"
 ```
+
 ## Notes
 
-## /Users/login
+## /login
 
 ### Description
 utilized for creating and using a login token for the user. all main functionality will require passing the token into the PATH
 
 ### Request Body (Form Data)
+
 |Field|Type|Example|Description|
 |---|---|---|---|
 |email|String|Test@notarealdomain.net|the user email for the login|
 |password|String|Password1|the plaintext raw password for the login|
 
 ### Example Request
+
 ```plainText
-POST /Users/Login
+POST /Login
 Content-Type: application/x-www-form-urlencoded
 
 email=Test@notarealdomain.net&password=Password1
 ```
 
 ```bash
- curl -X POST localhost:8080/users/login -d "password=Password1" -d "email=parker@gmail.com"
+ curl -X POST localhost:8080/login -d "password=Password1" -d "email=parker@gmail.com"
 ```
+
 ### Example Response
+
 ```
 "1335d8ed-33d3-4fd6-8bbf-9b7caba4aa8e"
 ```
+
 ### Notes
 
 Being a resource creation for tokenization the response is just the token which will be used for the remainder of the session
@@ -67,9 +92,11 @@ Being a resource creation for tokenization the response is just the token which 
 ## /{TOKEN}/homepolicy
 
 ### Description
+
 utilized for creating home policies
 
 ### Request Body (Form Data)
+
 |Field|Type|Example|Description|
 |---|---|---|---|
 |startdate|LocalDate|2001-12-31|the date the policy begins|
@@ -91,7 +118,6 @@ POST /1335d8ed-33d3-4fd6-8bbf-9b7caba4aa8e/homepolicy
 Content-Type: application/x-www-form-urlencoded
 
 startdate=2000-12-31&basepremium=15000&taxRate=20&activestatus=true&hasAutopolicydiscount=false&totalPremium=99999&insuredHome.homevalue=250000&insuredHome.liabilityLimit=250000&insuredHome.dwellingType=BUNGALOW&insuredHome.heatingType=OIL&insuredHome.locationType=RURAL
-
 ```
 
 ```bash
@@ -99,9 +125,11 @@ startdate=2000-12-31&basepremium=15000&taxRate=20&activestatus=true&hasAutopolic
 ```
 
 ### Example Response
+
 ```
 CREATED
 ```
+
 ### Notes
 
 ## /{TOKEN}/homequote
@@ -148,9 +176,11 @@ CREATED
 ## /{TOKEN}/autoquote
 
 ### Description
+
 utilized for creating auto quote
 
 ### Request Body (Form Data)
+
 |Field|Type|Example|Description|
 |---|---|---|---|
 |startdate|LocalDate|2001-12-31|the date the policy begins|
@@ -178,18 +208,21 @@ startdate=2000-12-31&basepremium=15000&taxRate=20&activestatus=true&hasHomepolic
 ```
 
 ### Example Response
+
 ```
 CREATED
 ```
-### Notes 
 
+### Notes 
 
 ## /{TOKEN}/autopolicy
 
 ### Description
+
 utilized for creating home policy
 
 ### Request Body (Form Data)
+
 |Field|Type|Example|Description|
 |---|---|---|---|
 |startdate|LocalDate|2001-12-31|the date the policy begins|
@@ -217,7 +250,76 @@ startdate=2000-12-31&basepremium=15000&taxRate=20&activestatus=true&hasHomepolic
 ```
 
 ### Example Response
+
 ```
 CREATED
 ```
-### Notes 
+
+### Notes
+
+## /{TOKEN}/alluserpolicies
+
+### Description
+
+Retrieves all policies for a given user
+
+### Example Request
+
+```plaintext
+GET http://localhost:8080/123e4567-e89b-12d3-a456-426614174000/allusers
+Host: localhost:8080
+```
+
+```bash
+curl -X GET http://localhost:8080/123e4567-e89b-12d3-a456-426614174000/allusers
+
+```
+### Example Response
+
+>Not Available
+
+### Notes
+
+## /{TOKEN}/alluserautopolicies
+## /{TOKEN}/alluserhomepolicies
+## /{TOKEN}/allpolicies
+## /{TOKEN}/allhomepolicies
+## /{TOKEN}/allautopolicies
+## /{TOKEN}/allusers
+## /getuser/{id}
+## /updateuser/{id}
+## /{TOKEN}/{id}/getHomePolicy
+## /{TOKEN}/{id}/updatehomepolicyhome
+## /{TOKEN}/{id}/createhomepolicyfromquote
+## /{TOKEN}/{id}/cancelhomepolicy
+## /{TOKEN}/{id}/getAutoPolicy
+## /{TOKEN}/{id}/updateautopolicyautomobile
+## /{TOKEN}/{id}/createautopolicyfromquote
+## /{TOKEN}/{id}/cancelautopolicy
+## /registerrepresenative
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

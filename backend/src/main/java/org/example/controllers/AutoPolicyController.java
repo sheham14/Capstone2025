@@ -41,7 +41,7 @@ public class AutoPolicyController {
      * @param email
      * @return
      */
-    @PutMapping("/updateautopolicyauto")
+    @PutMapping("/updateautopolicyautomobile")
     public @ResponseBody HttpStatus updateUser(
             @PathVariable("id") Integer policyId, @ModelAttribute AutoInsurance autoInsurance) {
         if (autoPoliciesRepository.existsById(policyId)) {
