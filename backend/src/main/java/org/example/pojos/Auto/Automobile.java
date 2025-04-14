@@ -1,15 +1,7 @@
 package org.example.pojos.Auto;
 
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-
 import java.time.LocalDate;
-import java.time.Year;
-
-import org.springframework.cglib.core.Local;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
@@ -25,17 +17,17 @@ public class Automobile {
     private String vehicleModel;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate manufacturDate;
+    private LocalDate manufactureDate;
 
     private int numberofAccidents;
 
 
 
-    public Automobile(String make, String model, LocalDate manufacturerDate, int accidents) {
+    public Automobile(String make, String model, LocalDate manufacturerDate, Integer accidents) {
         this.numberofAccidents = accidents;
         this.vehicleMake = make;
         this.vehicleModel = model;
-        this.manufacturDate = manufacturerDate;
+        this.manufactureDate = manufacturerDate;
     }
 
     public Automobile() {
@@ -79,7 +71,7 @@ public class Automobile {
      * @return the year this Vehicle was manufactured
      */
     public LocalDate getVehicleManufactureDate() {
-        return this.manufacturDate;
+        return this.manufactureDate;
     }
 
     /**
@@ -87,14 +79,14 @@ public class Automobile {
      * @param vehicleYear the new year for this Vehicles manufacture
      */
     public void setVehicleManufactureDate(LocalDate manufactureDate) {
-        this.manufacturDate = manufactureDate;
+        this.manufactureDate = manufactureDate;
     }
 
     /**
      * Getter method for the number of accidens this vehicle has been in
      * @return the number of accidents this Vehicle has been in
      */
-    public int getNumberofAccidents() {
+    public Integer getNumberofAccidents() {
         return this.numberofAccidents;
     }
 
@@ -102,7 +94,7 @@ public class Automobile {
      * Setter methid for this vehicles accidents
      * @param numberofAccidents the new number of accidents this vehicle has suffered
      */
-    public void setNumberofAccidents(int numberofAccidents) {
+    public void setNumberofAccidents(Integer numberofAccidents) {
         this.numberofAccidents = numberofAccidents;
     }
 }

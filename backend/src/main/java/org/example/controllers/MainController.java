@@ -4,24 +4,16 @@ import org.example.dataaccess.AutoPoliciesRepository;
 import org.example.dataaccess.HomePoliciesRepository;
 import org.example.dataaccess.TokenRepository;
 import org.example.dataaccess.UserRepository;
-import org.example.pojos.Home.Home;
 import org.example.pojos.Home.HomeInsurance;
 import org.example.pojos.Responses.UserPoliciesResponse;
 import org.example.pojos.Auto.AutoInsurance;
-import org.example.pojos.Core.LoginToken;
 import org.example.pojos.Core.User;
 import org.example.pojos.Core.Policy.POLICYVIEWINGTYPE;
 import org.example.pojos.Core.User.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.servlet.http.HttpServletResponse;
-
-import java.net.http.HttpResponse;
-import java.time.LocalDate;
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -34,7 +26,6 @@ public class MainController {
     @Autowired private TokenRepository tokenRepository;
     @Autowired private HomePoliciesRepository homePoliciesRepository;
     @Autowired private AutoPoliciesRepository autoPoliciesRepository;
-    @Autowired private UserRepository userRepository;
 
     /**
      * Post mapping for a new home insurance policy

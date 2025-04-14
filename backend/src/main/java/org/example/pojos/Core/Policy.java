@@ -137,4 +137,8 @@ public void setViewingType(POLICYVIEWINGTYPE viewingType) {
     this.viewingType = viewingType;
 }
 
+public double getTotalPremium() {
+    return this.totalPremium;
+}
+
 }

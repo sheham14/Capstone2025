@@ -3,7 +3,6 @@ package org.example.dataaccess;
 import java.util.UUID;
 
 import org.example.pojos.Core.LoginToken;
-import org.example.pojos.Core.User;
 import org.springframework.data.repository.CrudRepository;
 
 
