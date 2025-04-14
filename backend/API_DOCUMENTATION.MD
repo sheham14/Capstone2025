@@ -6,24 +6,41 @@ Authored by Parker Wallace
 # Table Of Contents
 |Function|Endpoint|
 |---|---|
-|[Register Users](#register)|`/register`|
-|[Login Users](#login)|`/register`|
-|[create a home insurance policy](#tokenhomepolicy)|`/{TOKEN}/homepolicy`|
-|[create a home insurance quote](#tokenhomequote)|`{TOKEN}/homequote`|
-|[create an auto insurance policy](#tokenautopolicy)|`/{TOKEN}/autopolicy`|
-|[create an auto insurance quote](#tokenautoquote)|`/{TOKEN}/autoquote`|
-|[retrieve all policies for any given user](#tokenalluserpolicies)|`{TOKEN}/alluserpolicies`|
-|[retrieve all policies for any given user](#tokenalluserpolicies)|`{TOKEN}/alluserpolicies`|
-|[retrieve all auto insurance policies for any given user](#tokenallautopolicies)|`/{TOKEN}/alluserautopoliicies`|
+|[**Create Resources**](#create)||
+|[Register Customers](#register)|`/register`|
+|[Register Represenatives](#registerrepresenative)|`/registerrepresenative`|
+|[Login Users](#login)|`/login`|
+|[Create a home insurance policy](#tokenhomepolicy)|`/{TOKEN}/homepolicy`|
+|[Create a home insurance quote](#tokenhomequote)|`/{TOKEN}/homequote`|
+|[Create an auto insurance policy](#tokenautopolicy)|`/{TOKEN}/autopolicy`|
+|[Create an auto insurance quote](#tokenautoquote)|`/{TOKEN}/autoquote`|
+|[**Read Resources**](#read)||
+|[Retrieve all policies for any given user](#tokenalluserpolicies)|`{TOKEN}/alluserpolicies`|
+|[Retrieve all policies for any given user](#tokenalluserhomepolicies)|`{TOKEN}/alluserhompolicies`|
+|[Retrieve all auto insurance policies for any given user](#tokenalluserautopolicies)|`/{TOKEN}/alluserautopoliicies`|
+|[Retrieve all current policies available in the system](#tokenallpolicies)|`/{TOKEN}/allpolicies`|
+|[Retrieve all current home policies in the system](#tokenallhomepolicies)|`/{TOKEN}/allhomepolicies`|
+|[Retrieve all current auto policies in the system](#tokenallautopolicies)|`/{TOKEN}/allautopolicies`|
+|[Retrieve all current users in the system](#tokenallusers)|`/{TOKEN}/allusers`|
+|[Retrieve all information about a specific user](#getuserid)|`/getuser/{id}`|
+|[Updates a user](#updateuserid)|`/updateuser/{id}`|
+|[Retrieves all information about a specified home policy](#tokenidgethomepolicy)|`/{TOKEN}/{id}/getHomePolicy`|
+|[Retrieves all information about a specified auto policy](#tokenidgetautopolicy)|`/{TOKEN}/{id}/getAutoPolicy`|
+|[Updates information about a specified home policy](#tokenidupdatehomepolicy)|`/{TOKEN}/{id}/updateHomePolicy`|
+|[Updates information about a specified auto policy](#tokenidupdateautopolicyautomobile)|`/{TOKEN}/{id}/updateAutoPolicy`|
+|[Changes a specified home insurance policy from quote to policy](#tokenidcreatehomepolicyfromquote)|`/{TOKEN}/{id}/createHomePolicyfromquote`|
+|[Changes a specified auto insurance policy from quote to policy](#tokenidcreateautopolicyfromquote)|`/{TOKEN}/{id}/createAutoPolicyfromquote`|
+|[Deactivates a home insurance policy](#tokenidcancelhomepolicy)|`/{TOKEN}/{id}/cancelHomePolicy`|
+|[Deactivates an auto insurance policy](#tokenidcancelautopolicy)|`/{TOKEN}/{id}/cancelAutoPolicy`|
 
-
+# Create
 
 ## /register
 
-## Description
+### Description
 utilized for creating a user account for use in the system
 
-## Request Body (Form Data)
+### Request Body (Form Data)
 
 |Field|Type|Example|Description|
 |---|---|---|---|
@@ -33,7 +50,7 @@ utilized for creating a user account for use in the system
 |date of birth|LocalDate|2002-12-31|the date of birth for the user|
 
 
-## Example Request
+### Example Request
 
 ```plainText
 POST /register
@@ -46,13 +63,13 @@ email=Test@notarealdomain.net&password=Password1&name=Parker%20Wallace&dateofBir
 curl -X POST localhost:8080/register -d "name=parker" -d "password=Password1" -d "email=parker@gmail.com" -d "dateofBirth=2001-09-26"
 ```
 
-## Example Response
+### Example Response
 
 ```
 "CREATED"
 ```
 
-## Notes
+### Notes
 
 ## /login
 
@@ -257,6 +274,8 @@ CREATED
 
 ### Notes
 
+# Read
+
 ## /{TOKEN}/alluserpolicies
 
 ### Description
@@ -281,22 +300,284 @@ curl -X GET http://localhost:8080/123e4567-e89b-12d3-a456-426614174000/allusers
 ### Notes
 
 ## /{TOKEN}/alluserautopolicies
+
+### Description
+
+Retrieves all auto policies and quotes for a specific user
+
+### Example Request
+
+```plaintext
+GET http://localhost:8080/123e4567-e89b-12d3-a456-426614174000/alluserautopolicies
+Host: localhost:8080
+```
+
+```bash
+curl -X GET http://localhost:8080/123e4567-e89b-12d3-a456-426614174000/alluserautopolicies
+
+```
+### Example Response
+
+>Not Available
+
+### Notes
+
 ## /{TOKEN}/alluserhomepolicies
+
+### Description
+
+Retrieves all home insurance policies and quotes for a specific user
+
+### Example Request
+
+```plaintext
+GET http://localhost:8080/123e4567-e89b-12d3-a456-426614174000/alluserhomepolicies
+Host: localhost:8080
+```
+
+```bash
+curl -X GET http://localhost:8080/123e4567-e89b-12d3-a456-426614174000/alluserhomepolicies
+
+```
+### Example Response
+
+>Not Available
+
+### Notes
+
 ## /{TOKEN}/allpolicies
+
+### Description
+
+Retrieves all available policies and quotes from the database. this can only be accomplished if the token is owned by a represenative
+
+### Example Request
+
+```plaintext
+GET http://localhost:8080/123e4567-e89b-12d3-a456-426614174000/allpolicies
+Host: localhost:8080
+```
+
+```bash
+curl -X GET http://localhost:8080/123e4567-e89b-12d3-a456-426614174000/allpolicies
+
+```
+### Example Response
+
+>Not Available
+
+### Notes
+
 ## /{TOKEN}/allhomepolicies
+
+### Description
+
+Retrieves all available home policies in the database. this can only be accomplished if the token is owned by a represenative
+
+### Example Request
+
+```plaintext
+GET http://localhost:8080/123e4567-e89b-12d3-a456-426614174000/allhomepolicies
+Host: localhost:8080
+```
+
+```bash
+curl -X GET http://localhost:8080/123e4567-e89b-12d3-a456-426614174000/allhomepolicies
+
+```
+### Example Response
+
+>Not Available
+
+### Notes
+
 ## /{TOKEN}/allautopolicies
+
+### Description
+
+Retrieves all auto policies from the database. this can only be accomplished if the token is owned by a represenative
+
+### Example Request
+
+```plaintext
+GET http://localhost:8080/123e4567-e89b-12d3-a456-426614174000/allautopolicies
+Host: localhost:8080
+```
+
+```bash
+curl -X GET http://localhost:8080/123e4567-e89b-12d3-a456-426614174000/allautopolicies
+
+```
+### Example Response
+
+>Not Available
+
+### Notes
+
 ## /{TOKEN}/allusers
+
+### Description
+
+Retrieves all users from the database. this can only be accomplished if the token is owned by a represenative.
+
+### Example Request
+
+```plaintext
+GET http://localhost:8080/123e4567-e89b-12d3-a456-426614174000/allusers
+Host: localhost:8080
+```
+
+```bash
+curl -X GET http://localhost:8080/123e4567-e89b-12d3-a456-426614174000/allusers
+
+```
+### Example Response
+
+>Not Available
+
+### Notes
+
 ## /getuser/{id}
+
+### Description
+
+Retrieves information about a specified user
+
+### Example Request
+
+```plaintext
+GET http://localhost:8080/getuser/5
+Host: localhost:8080
+```
+
+```bash
+curl -X GET http://localhost:8080/getuser/5
+
+```
+### Example Response
+
+>Not Available
+
+### Notes
+
+# Update
+
 ## /updateuser/{id}
+
+### Description
+
+updates a user with new information based on the path id
+
+### Example Request
+
+```plaintext
+GET http://localhost:8080/updateuser/5
+Host: localhost:8080
+```
+
+```bash
+curl -X GET http://localhost:8080/updateuser/5
+
+```
+### Example Response
+
+>Not Available
+
+### Notes
+
 ## /{TOKEN}/{id}/getHomePolicy
+
+### Description
+
+Retrieves a Home policy for a specific user
+
+### Example Request
+
+```plaintext
+GET http://localhost:8080/123e4567-e89b-12d3-a456-426614174000/5/getHomePolicy
+Host: localhost:8080
+```
+
+```bash
+curl -X GET http://localhost:8080/123e4567-e89b-12d3-a456-426614174000/5/getHomePolicy
+
+```
+### Example Response
+
+>Not Available
+
+### Notes
+
 ## /{TOKEN}/{id}/updatehomepolicyhome
+
+### Description
+
+updates a home insurance policy with new information
+
+### Example Request
+
+```plaintext
+GET http://localhost:8080/123e4567-e89b-12d3-a456-426614174000/5/updatehomepolicyhome
+Host: localhost:8080
+```
+
+```bash
+curl -X GET http://localhost:8080/123e4567-e89b-12d3-a456-426614174000/5/updatehomepolicyhome
+
+```
+### Example Response
+
+>Not Available
+
+### Notes
+
 ## /{TOKEN}/{id}/createhomepolicyfromquote
+
+### Description
+
+creates a home policy from a quote by changing the viewingtype property
+
+### Response Body (Form Data)
+### Example Request
+### Example Response
+### Notes
 ## /{TOKEN}/{id}/cancelhomepolicy
+### Description
+### Response Body (Form Data)
+### Example Request
+### Example Response
+### Notes
 ## /{TOKEN}/{id}/getAutoPolicy
+### Description
+### Response Body (Form Data)
+### Example Request
+### Example Response
+### Notes
 ## /{TOKEN}/{id}/updateautopolicyautomobile
+### Description
+### Response Body (Form Data)
+### Example Request
+### Example Response
+### Notes
 ## /{TOKEN}/{id}/createautopolicyfromquote
+### Description
+### Response Body (Form Data)
+### Example Request
+### Example Response
+### Notes
 ## /{TOKEN}/{id}/cancelautopolicy
+### Description
+### Response Body (Form Data)
+### Example Request
+### Example Response
+### Notes
 ## /registerrepresenative
+### Description
+### Response Body (Form Data)
+### Example Request
+### Example Response
+### Notes
+
 
 
 
