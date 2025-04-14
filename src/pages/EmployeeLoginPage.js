@@ -1,9 +1,14 @@
 import React from 'react';
 import LoginForm from '../components/LoginForm';
+import { useNavigate } from 'react-router-dom';
 
 function EmployeeLoginPage() {
+
+const navigate = useNavigate();
+
   const handleLogin = (credentials) => {
-    alert(`Employee login successful! Email: ${credentials.email}`);
+    // Mock login success; replace with real auth later
+    navigate('/employee-home');
   };
 
   return (

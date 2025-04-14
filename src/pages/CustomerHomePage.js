@@ -67,7 +67,7 @@ const CustomerHomepage = () => {
                     }}
                   
                   >
-                    View Policies (Coming Soon)
+                    View Policies
                   </Button>
                 </Card.Body>
               </Card>
