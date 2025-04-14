@@ -4,6 +4,7 @@ import org.example.dataaccess.TokenRepository;
 import org.example.dataaccess.UserRepository;
 import org.example.pojos.Core.LoginToken;
 import org.example.pojos.Core.User;
+import org.example.pojos.Core.User.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,9 @@ public class UserController {
     @Autowired private UserRepository userRepository;
     @Autowired private TokenRepository tokenRepository;
 
+    /**
+     * Post mapping for Login token
+     */
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/login")
     public UUID createAuthToken(@RequestParam String email, @RequestParam String password) {
@@ -38,9 +42,15 @@ public class UserController {
     /**
      * Get Mapping for all users
      */
-    @GetMapping(path = RESTNouns.USER)
-    public @ResponseBody Iterable<User> getAllUsers() {
+    @GetMapping(RESTNouns.TOKEN + "/allusers")
+    public Iterable<User> getAllUsers(@PathVariable("token") UUID token) {
+        if (tokenRepository.Token(token).getTokenOwner().getRole() != Role.REPRESENTATIVE) {
+            return null;
+        }
+        else {
         return userRepository.findAll();
+        }
+        
     }
 
     /**
@@ -48,7 +58,7 @@ public class UserController {
      * @param userId
      * @return
      */
-    @GetMapping(path = RESTNouns.USER + RESTNouns.ID)
+    @GetMapping("/getuser" + RESTNouns.ID)
     public @ResponseBody Optional<User> getUser(@PathVariable("id") Long userId) {
         return userRepository.findById(userId);
     }
@@ -61,12 +71,7 @@ public class UserController {
      */
     @PostMapping("/register")
     public HttpStatus createCustomer(
-            @RequestParam String name, 
-            @RequestParam String email, 
-            @RequestParam String password,
-            @RequestParam LocalDate dateofBirth) {
-                BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-                User user = new User(name, email, encoder.encode(password), dateofBirth);   
+            @ModelAttribute User user) {
                 user.setRole(User.Role.CUSTOMER);
                 userRepository.save(user);
         return HttpStatus.CREATED;
