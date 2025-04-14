@@ -11,6 +11,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 
 
 @MappedSuperclass
@@ -41,7 +43,7 @@ public abstract class Policy {
     
     private double totalPremium;
     
-    private boolean active; 
+    private boolean activeStatus; 
     
     @Enumerated(EnumType.ORDINAL)
     private POLICYVIEWINGTYPE viewingType ;
@@ -63,11 +65,16 @@ public Policy() {}
        this.taxRate = taxRate;
        this.totalPremium = 0.0;
        this.viewingType = viewingType;
-       this.active = activeStatus;
+       this.activeStatus = activeStatus;
    }
 
-   public double getTotalPremium() {
-       return totalPremium;
+   @PrePersist
+   @PreUpdate
+   private void autoUpdatePolicyEndDate(){
+    LocalDate today = LocalDate.now();
+    if (this.activeStatus && today.equals(this.endDate)) {
+        this.endDate = today.plusYears(1);
+    }
    }
 
    public User getPolicyOwner() {
@@ -115,11 +122,11 @@ public Policy() {}
    }
 
    public boolean getActiveStatus() {
-    return this.active;
+    return this.activeStatus;
    }
 
    public void setActiveStatus(boolean activeStatus) {
-    this.active = activeStatus;
+    this.activeStatus = activeStatus;
    }
 
    public POLICYVIEWINGTYPE getViewingType() {

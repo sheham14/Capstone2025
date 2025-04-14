@@ -9,10 +9,14 @@ import org.example.pojos.Responses.UserPoliciesResponse;
 import org.example.pojos.Auto.AutoInsurance;
 import org.example.pojos.Core.LoginToken;
 import org.example.pojos.Core.User;
+import org.example.pojos.Core.User.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.net.http.HttpResponse;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
@@ -35,13 +39,27 @@ public class MainController {
         return homePoliciesRepository.save(homeInsurancePolicy);
     }
 
-    @GetMapping("/allpolicies")
-    public UserPoliciesResponse getAllActivePolicies(@PathVariable("token") UUID token) {
+    @GetMapping("/alluserpolicies")
+    public UserPoliciesResponse getAllActivePoliciesByUser(@PathVariable("token") UUID token) {
         User user = tokenRepository.Token(token).getTokenOwner();
         Iterable<HomeInsurance> homePolicies = homePoliciesRepository.findBypolicyOwner(user);
         Iterable<AutoInsurance> autoPolicies = autoPoliciesRepository.findBypolicyOwner(user);
         UserPoliciesResponse allPoliciesResponse = new UserPoliciesResponse(homePolicies, autoPolicies);
         return allPoliciesResponse;
+    }
+
+    @GetMapping("/allpolicies")
+    public UserPoliciesResponse getAllActivePolicies(@PathVariable("token") UUID token) {
+        if (tokenRepository.Token(token).getTokenOwner().getRole() != Role.REPRESENTATIVE) {
+            return null;
+        }
+        else {
+        Iterable<HomeInsurance> homePolicies = homePoliciesRepository.findAll();
+        Iterable<AutoInsurance> autoPolicies = autoPoliciesRepository.findAll();
+        UserPoliciesResponse allPoliciesResponse = new UserPoliciesResponse(homePolicies, autoPolicies);
+        return allPoliciesResponse;
+        }
+        
     }
 
     
