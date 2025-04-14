@@ -1,20 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 
-function HomePage() {
-  const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Services', path: '/services' },
-    { name: 'About', path: '/about' },
-    { name: 'Contact', path: '/contact' },
-  ];
-
+function LandingPage() {
   return (
     <div>
-      <Header links={navLinks} isAuthenticated={false} />
-
       {/* Hero Section */}
       <div className="hero-section text-center text-white py-5">
         <div className="container">
@@ -22,7 +11,7 @@ function HomePage() {
           <p className="lead mb-4">
             Comprehensive insurance solutions tailored to your needs.
           </p>
-          <Link to="/login" className="btn btn-lg btn-secondary-color">
+          <Link to="/customer-login" className="btn btn-lg btn-secondary-color">
             Get a Quote
           </Link>
         </div>
@@ -118,10 +107,8 @@ function HomePage() {
           </Link>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }
 
-export default HomePage;
+export default LandingPage;

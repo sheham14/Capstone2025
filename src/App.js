@@ -1,16 +1,25 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
+import Layout from './components/Layout';
+import LandingPage from './pages/LandingPage';
 import EmployeeLoginPage from './pages/EmployeeLoginPage';
+import Policies from './pages/Policies';
+import Quote from './pages/Quote';
+import CustomerLoginPage from './pages/CustomerLoginPage';
+import CustomerHomepage from './pages/CustomerHomePage';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route element={<Layout />}>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/policies" element={<Policies />} />
+          <Route path="/quote" element={<Quote />} />
+          <Route path="/customer-home" element={<CustomerHomepage />} />
+        </Route>
+        <Route path="/customer-login" element={<CustomerLoginPage />} />
         <Route path="/employee-login" element={<EmployeeLoginPage />} />
+        
       </Routes>
     </Router>
   );

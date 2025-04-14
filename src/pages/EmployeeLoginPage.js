@@ -15,7 +15,7 @@ function EmployeeLoginPage() {
               title="Employee Login"
               onSubmit={handleLogin}
               linkText="Back to Customer Login"
-              linkPath="/login"
+              linkPath="/customer-login"
             />
           </div>
         </div>

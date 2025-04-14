@@ -1,7 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function Header({ links = [], isAuthenticated = false }) {
+function Header({ isAuthenticated = false }) {
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'Services', path: '/services' },
+    { name: 'About', path: '/about' },
+    { name: 'Contact', path: '/contact' },
+  ];
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary-color">
       <div className="container">
@@ -21,17 +28,23 @@ function Header({ links = [], isAuthenticated = false }) {
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
-            {links.map((link, index) => (
+            {navLinks.map((link, index) => (
               <li className="nav-item" key={index}>
                 <Link className="nav-link text-secondary-color" to={link.path}>
                   {link.name}
                 </Link>
               </li>
             ))}
-            {isAuthenticated && (
+            {isAuthenticated ? (
               <li className="nav-item">
                 <Link className="nav-link text-secondary-color" to="/logout">
                   Logout
+                </Link>
+              </li>
+            ) : (
+              <li className="nav-item">
+                <Link className="nav-link text-secondary-color" to="/login">
+                  Login
                 </Link>
               </li>
             )}

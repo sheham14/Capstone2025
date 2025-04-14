@@ -1,9 +1,14 @@
+// src/pages/CustomerLoginPage.js
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import LoginForm from '../components/LoginForm';
 
-function LoginPage() {
+function CustomerLoginPage() {
+  const navigate = useNavigate();
+
   const handleLogin = (credentials) => {
-    alert(`Customer login successful! Email: ${credentials.email}`);
+    // Mock login success; replace with real auth later
+    navigate('/customer-home');
   };
 
   return (
@@ -24,4 +29,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default CustomerLoginPage;
