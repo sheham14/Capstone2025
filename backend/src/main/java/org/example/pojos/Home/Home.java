@@ -5,27 +5,22 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.Year;
 
+import org.example.pojos.Core.User;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**
- * Represents a home entity with various attributes such as year built,
- * home value, liability limit, dwelling type, heating type, and location type.
+ * Represents a home entity with various attributes
  * 
  * @author Parker Wallace 
  */
-@Entity
+@Embeddable
 public class Home {
     
     /**
-     * The unique identifier for the home.
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private Long userId;
-
-    /**
      * The year the home was built.
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateBuilt;
 
     /**
@@ -56,10 +51,7 @@ public class Home {
     @Enumerated(EnumType.STRING)
     private LOCATIONTYPE locationType;
 
-    /**
-     * Default constructor required by JPA.
-     */
-    public Home() {}
+public Home() {}
 
     /**
      * Constructs a new Home object with specified attributes.
@@ -95,12 +87,6 @@ public class Home {
      * Enumeration representing different location types.
      */
     public enum LOCATIONTYPE { RURAL, URBAN }
-
-    /**
-     * Gets the unique identifier of the home.
-     * @return The home ID.
-     */
-    public Long getId() { return id; }
 
     /**
      * Gets the year the home was built.
@@ -142,6 +128,7 @@ public class Home {
      * Gets the dwelling type of the home.
      * @return The dwelling type.
      */
+    
     public DWELLINGTYPE getDwellingType() { return dwellingType; }
 
     /**

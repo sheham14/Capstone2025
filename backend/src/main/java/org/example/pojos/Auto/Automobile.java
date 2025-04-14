@@ -1,32 +1,41 @@
 package org.example.pojos.Auto;
 
+import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
+import java.time.LocalDate;
 import java.time.Year;
+
+import org.springframework.cglib.core.Local;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * Represents an automobile for use in the TaylorInsurance quoting system. contains all the necessary methods and contructors
  * 
  * @author Parker Wallace
  */
-@Entity
+@Embeddable
 public class Automobile {
+
     private String vehicleMake;
+
     private String vehicleModel;
-    private Year vehicleYear;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate manufacturDate;
+
     private int numberofAccidents;
 
-    @Id
-    @GeneratedValue
-    private Long id;
 
-    public Automobile(String make, String model, Year year, int accidents) {
+
+    public Automobile(String make, String model, LocalDate manufacturerDate, int accidents) {
         this.numberofAccidents = accidents;
         this.vehicleMake = make;
         this.vehicleModel = model;
-        this.vehicleYear = year;
+        this.manufacturDate = manufacturerDate;
     }
 
     public Automobile() {
@@ -69,16 +78,16 @@ public class Automobile {
      * Getter method for this Vehicle's manufacture year
      * @return the year this Vehicle was manufactured
      */
-    public Year getVehicleYear() {
-        return this.vehicleYear;
+    public LocalDate getVehicleManufactureDate() {
+        return this.manufacturDate;
     }
 
     /**
      * Setter method for this Vehicle's manufacture year
      * @param vehicleYear the new year for this Vehicles manufacture
      */
-    public void setVehicleYear(Year vehicleYear) {
-        this.vehicleYear = vehicleYear;
+    public void setVehicleManufactureDate(LocalDate manufactureDate) {
+        this.manufacturDate = manufactureDate;
     }
 
     /**
@@ -95,13 +104,5 @@ public class Automobile {
      */
     public void setNumberofAccidents(int numberofAccidents) {
         this.numberofAccidents = numberofAccidents;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
     }
 }

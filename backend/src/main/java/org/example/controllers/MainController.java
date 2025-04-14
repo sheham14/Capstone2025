@@ -1,146 +1,66 @@
 package org.example.controllers;
 
-import org.example.dataaccess.HomeRepository;
-import org.example.dataaccess.UserRepository;
+import org.example.dataaccess.AutoPoliciesRepository;
+import org.example.dataaccess.HomePoliciesRepository;
+import org.example.dataaccess.TokenRepository;
 import org.example.pojos.Home.Home;
+import org.example.pojos.Home.HomeInsurance;
+import org.example.pojos.Responses.UserPoliciesResponse;
+import org.example.pojos.Auto.AutoInsurance;
+import org.example.pojos.Core.LoginToken;
 import org.example.pojos.Core.User;
+import org.example.pojos.Core.User.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.net.http.HttpResponse;
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * The main controller for this application. Controllers can be split by the base URL in the request mapping
  */
-@Controller
-@RequestMapping(path = RESTNouns.VERSION_1)
+@RestController
+@RequestMapping(path = RESTNouns.TOKEN)
 public class MainController {
 
+    @Autowired private TokenRepository tokenRepository;
+    @Autowired private HomePoliciesRepository homePoliciesRepository;
+    @Autowired private AutoPoliciesRepository autoPoliciesRepository;
 
-    //Wire the ORM
-    @Autowired private UserRepository userRepository;
-    @Autowired private HomeRepository homeRepository;
-
-    /**
-     * Get Mapping for all users
-     */
-    @GetMapping(path = RESTNouns.USER)
-    public @ResponseBody Iterable<User> getAllUsers() {
-        return userRepository.findAll();
+    @PostMapping("/HomePolicy")
+    public @ResponseBody HomeInsurance addHomeInsurance(@PathVariable("token") UUID token, @ModelAttribute HomeInsurance policy ) {
+        HomeInsurance homeInsurancePolicy = policy;
+        homeInsurancePolicy.setPolicyOwner(tokenRepository.Token(token).getTokenOwner());
+        return homePoliciesRepository.save(homeInsurancePolicy);
     }
 
-    /**
-     * Get for a user
-     * @param userId
-     * @return
-     */
-    @GetMapping(path = RESTNouns.USER + RESTNouns.ID)
-    public @ResponseBody Optional<User> getUser(@PathVariable("id") Long userId) {
-        return userRepository.findById(userId);
+    @GetMapping("/alluserpolicies")
+    public UserPoliciesResponse getAllActivePoliciesByUser(@PathVariable("token") UUID token) {
+        User user = tokenRepository.Token(token).getTokenOwner();
+        Iterable<HomeInsurance> homePolicies = homePoliciesRepository.findBypolicyOwner(user);
+        Iterable<AutoInsurance> autoPolicies = autoPoliciesRepository.findBypolicyOwner(user);
+        UserPoliciesResponse allPoliciesResponse = new UserPoliciesResponse(homePolicies, autoPolicies);
+        return allPoliciesResponse;
     }
 
-    /**
-     * Post Mapping for a new users
-     * @param name name
-     * @param email email
-     * @return
-     */
-    @PostMapping(path = RESTNouns.USER)
-    public @ResponseBody User createUser(
-            @RequestParam String name, @RequestParam String email) {
-        User user = new User();
-        user.setUsername(name);
-        user.setEmail(email);
-        return userRepository.save(user);
-    }
-
-    /**
-     * Delete Mapping for a user by ID
-     * @param userId The ID of the user to delete
-     * @return A response indicating success or failure
-     */
-    @DeleteMapping(path = RESTNouns.USER + RESTNouns.ID)
-    public @ResponseBody String deleteUser(@PathVariable("id") Long userId) {
-        if (userRepository.existsById(userId)) {
-            userRepository.deleteById(userId);
-            return "User with ID " + userId + " deleted successfully.";
-        } else {
-            return "User with ID " + userId + " not found.";
+    @GetMapping("/allpolicies")
+    public UserPoliciesResponse getAllActivePolicies(@PathVariable("token") UUID token) {
+        if (tokenRepository.Token(token).getTokenOwner().getRole() != Role.REPRESENTATIVE) {
+            return null;
         }
-    }
-
-    /**
-     * Put mapping for user
-     * @param userId
-     * @param name
-     * @param email
-     * @return
-     */
-    @PutMapping(path = RESTNouns.USER + RESTNouns.ID)
-    public @ResponseBody String updateUser(
-            @PathVariable("id") Long userId, @RequestParam String name, @RequestParam String email){
-        if (userRepository.existsById(userId)) {
-            Optional<User> user = userRepository.findById(userId);
-            if(user.isPresent()){
-                user.get().setUsername(name);
-                user.get().setEmail(email);
-            }
-            userRepository.save(user.get());
-            return "User with ID " + userId + " updated successfully.";
-        } else {
-            return "User with ID " + userId + " not found.";
+        else {
+        Iterable<HomeInsurance> homePolicies = homePoliciesRepository.findAll();
+        Iterable<AutoInsurance> autoPolicies = autoPoliciesRepository.findAll();
+        UserPoliciesResponse allPoliciesResponse = new UserPoliciesResponse(homePolicies, autoPolicies);
+        return allPoliciesResponse;
         }
-
+        
     }
 
-    /**
-     * Get all homes for a specific User
-     */
-    @GetMapping(path = RESTNouns.USER +  RESTNouns.ID + RESTNouns.HOME)
-    public @ResponseBody Iterable<Home> getAllHomesByUser(@PathVariable("id") Long userId) {
-        Iterable<Home> homes = null;
-        if (userRepository.existsById(userId)) {
-            Optional<User> user = userRepository.findById(userId);
-            if(user.isPresent()){
-                // homeRepository
-
-                homes = homeRepository.getAllByUserId(userId);
-            }
-        }
-
-        //TODO handle errors
-
-        return homes;
-    }
-
-    /**
-     * Create a home for a user
-     * @param userId user id
-     * @param dateBuilt date built
-     * @param value value of the home as an int
-     * @return
-     */
-    @PostMapping(path = RESTNouns.USER + RESTNouns.ID + RESTNouns.HOME)
-    public @ResponseBody Home createHomeByUser(
-            @PathVariable("id") Long userId,
-            @RequestParam LocalDate dateBuilt, @RequestParam int value) {
-//
-        Home home = null;
-        if (userRepository.existsById(userId)) {
-            Optional<User> user = userRepository.findById(userId);
-
-            home = new Home();
-            home.setHomeValue(value);
-            home.setDateBuilt(dateBuilt);
-            homeRepository.save(home);
-
-        }
-
-        //TODO handle error codes
-
-        return home;
-    }
-
+    
 }
