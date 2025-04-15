@@ -43,7 +43,7 @@ function Header({ isAuthenticated = false }) {
               </li>
             ) : (
               <li className="nav-item">
-                <Link className="nav-link text-secondary-color" to="/login">
+                <Link className="nav-link text-secondary-color" to="/customer-login">
                   Login
                 </Link>
               </li>
