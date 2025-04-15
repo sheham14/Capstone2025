@@ -1,7 +1,6 @@
 package org.example.pojos.Auto;
 
 import java.time.LocalDate;
-import java.time.Year;
 import org.example.pojos.Core.Policy;
 import org.example.pojos.Core.User;
 

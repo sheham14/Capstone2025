@@ -3,7 +3,6 @@ package org.example.controllers;
 import java.util.Optional;
 
 import org.example.dataaccess.HomePoliciesRepository;
-import org.example.pojos.Core.User;
 import org.example.pojos.Core.Policy.POLICYVIEWINGTYPE;
 import org.example.pojos.Home.HomeInsurance;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 

@@ -1,10 +1,8 @@
     package org.example.dataaccess;
 
-    import java.util.List;
     import org.example.pojos.Core.User;
     import org.example.pojos.Home.HomeInsurance;
     import org.springframework.data.repository.CrudRepository;
-    import org.springframework.stereotype.Repository;
 
     /**
      * Home Repository interface that will be used by String to create a bean that handles all the CRUD operations

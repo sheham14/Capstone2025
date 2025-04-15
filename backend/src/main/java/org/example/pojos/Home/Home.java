@@ -3,10 +3,6 @@ package org.example.pojos.Home;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.time.Year;
-
-import org.example.pojos.Core.User;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**

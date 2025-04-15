@@ -9,13 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(path = RESTNouns.USER)
 public class UserController {
     @Autowired private UserRepository userRepository;
     @Autowired private TokenRepository tokenRepository;
@@ -77,19 +74,18 @@ public class UserController {
         return HttpStatus.CREATED;
     }
 
-    /**
-     * Delete Mapping for a user by ID
-     * @param userId The ID of the user to delete
-     * @return A response indicating success or failure
+        /**
+     * Post Mapping for a new customers
+     * @param name name
+     * @param email email
+     * @return
      */
-    @DeleteMapping(path = RESTNouns.TOKEN)
-    public @ResponseBody String deleteUser(@PathVariable("id") Long userId) {
-        if (userRepository.existsById(userId)) {
-            userRepository.deleteById(userId);
-            return "User with ID " + userId + " deleted successfully.";
-        } else {
-            return "User with ID " + userId + " not found.";
-        }
+    @PostMapping("/registerrepresenative")
+    public HttpStatus createRep(
+            @ModelAttribute User user) {
+                user.setRole(User.Role.REPRESENTATIVE);
+                userRepository.save(user);
+        return HttpStatus.CREATED;
     }
 
     /**
@@ -99,7 +95,7 @@ public class UserController {
      * @param email
      * @return
      */
-    @PutMapping(path = RESTNouns.USER + RESTNouns.ID)
+    @PutMapping("/updateuser" + RESTNouns.ID)
     public @ResponseBody String updateUser(
             @PathVariable("id") Long userId, @RequestParam String name, @RequestParam String email){
         if (userRepository.existsById(userId)) {
