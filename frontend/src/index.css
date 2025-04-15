@@ -1,13 +1,91 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
+:root {
+    /* Theme Colors */
+    --primary-color: #1A2526; /* Navy Blue */
+    --secondary-color: #D4A017; /* Gold */
+    --background-light: #f8f9fa; /* Light Gray */
+    --text-white: #ffffff;
+    --text-muted: #6c757d;
+  
+    /* Typography */
+    --font-family: 'Roboto', sans-serif;
+    --font-size-base: 1rem;
+    --font-size-heading: 2rem;
+    --font-weight-bold: 700;
+    --font-weight-semibold: 600;
+  
+    /* Spacing */
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 2rem;
+  }
+  
+  /* Apply global styles */
+  body {
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    margin: 0;
+  }
+  
+  /* Reusable Classes */
+  .text-primary-color {
+    color: var(--primary-color);
+  }
+  
+  .text-secondary-color {
+    color: var(--secondary-color);
+  }
+  
+  .text-white {
+    color: var(--text-white);
+  }
+  
+  .text-muted {
+    color: var(--text-muted);
+  }
+  
+  .bg-primary-color {
+    background-color: var(--primary-color);
+  }
+  
+  .bg-secondary-color {
+    background-color: var(--secondary-color);
+  }
+  
+  .bg-light {
+    background-color: var(--background-light);
+  }
+  
+  .hero-section {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #2E3B3E 100%);
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .btn-secondary-color {
+    background-color: var(--secondary-color);
+    color: var(--text-white);
+    border: none;
+  }
+  
+  .btn-secondary-color:hover {
+    background-color: #b88c14; /* Slightly darker gold on hover */
+    color: var(--text-white);
+  }
+  
+  .card-custom {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  }
+  
+  .heading {
+    font-size: var(--font-size-heading);
+    font-weight: var(--font-weight-bold);
+    color: var(--primary-color);
+  }
+  
+  .subheading {
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--primary-color);
+  }
