@@ -1,30 +1,30 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Correct import for v6
-import Register from './Pages/Register/Register';
-import Home from './Pages/Home/Home';
-import Login from "./Pages/Register/Login.js"
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
+import LandingPage from './pages/LandingPage';
+import EmployeeLoginPage from './pages/EmployeeLoginPage';
+import Policies from './pages/Policies';
+import Quote from './pages/Quote';
+import CustomerLoginPage from './pages/CustomerLoginPage';
+import CustomerHomepage from './pages/CustomerHomePage';
+import EmployeeHomepage from './pages/EmployeeHomePage';
 
-// import Components
-import Footer from './Components/Footer.js';
-import Navbar from "./Components/Navbar.js";
-import InsuranceDemo from './Pages/Demo/InsuranceDemo.js';
-
-const App = () => {
+function App() {
   return (
-    
     <Router>
-            <header>
-        <Navbar />
-      </header>
       <Routes>
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/Demo" element={<InsuranceDemo />} />
-        <Route path="/" element={<Home />} />
+        <Route element={<Layout />}>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/policies" element={<Policies />} />
+          <Route path="/quote" element={<Quote />} />
+          <Route path="/customer-home" element={<CustomerHomepage />} />
+          <Route path="/employee-home" element={<EmployeeHomepage />} />
+        </Route>
+        <Route path="/customer-login" element={<CustomerLoginPage />} />
+        <Route path="/employee-login" element={<EmployeeLoginPage />} />
+        
       </Routes>
-      <Footer/>
     </Router>
   );
-};
+}
 
 export default App;
