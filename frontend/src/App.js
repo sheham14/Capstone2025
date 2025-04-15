@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Layout from './components/Layout';
+import Layout from './components/Layout'
 import LandingPage from './pages/LandingPage';
 import EmployeeLoginPage from './pages/EmployeeLoginPage';
 import Policies from './pages/Policies';
@@ -7,6 +7,7 @@ import Quote from './pages/Quote';
 import CustomerLoginPage from './pages/CustomerLoginPage';
 import CustomerHomepage from './pages/CustomerHomePage';
 import EmployeeHomepage from './pages/EmployeeHomePage';
+import Register from './pages/Register'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         </Route>
         <Route path="/customer-login" element={<CustomerLoginPage />} />
         <Route path="/employee-login" element={<EmployeeLoginPage />} />
+        <Route path="/register" element={<Register />} />
         
       </Routes>
     </Router>

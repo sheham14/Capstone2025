@@ -114,6 +114,47 @@ const mockUsers = [
         mockQuotes.push(newQuote);
         return { data: newQuote };
       }
+
+      if (url === '/api/users') {
+        const email = formData.get('email');
+        const username = formData.get('username');
+        const password = formData.get('password');
+        const dateOfBirth = formData.get('dateOfBirth');
+        const role = formData.get('role') || 'CUSTOMER';
+      
+        // Check for duplicates
+        if (mockUsers.some(user => user.email === email)) {
+          throw new Error('Email already exists');
+        }
+        if (mockUsers.some(user => user.username === username)) {
+          throw new Error('Username already exists');
+        }
+      
+        const newUser = {
+          id: mockUsers.length + 1,
+          email,
+          username,
+          password,
+          dateOfBirth,
+          role,
+          activeStatus: true,
+        };
+        mockUsers.push(newUser);
+        console.log(mockUsers);
+        return { data: newUser };
+      }
+
+      if (url === '/api/login') {
+        const email = formData.get('email');
+        const password = formData.get('password');
+        
+        const user = mockUsers.find(user => user.email === email && user.password === password);
+        if (!user) {
+          throw new Error('Invalid email or password');
+        }
+        
+        return { data: { message: 'Login successful', userId: user.id } };
+      }
       throw new Error('Not implemented');
     },
   };
