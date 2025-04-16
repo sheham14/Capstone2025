@@ -32,42 +32,40 @@ const Policies = () => {
         My Policies
       </h2>
       <Row>
-        {autoPolicies.concat(homePolicies).map((policy) => (
-          <Col md={4} key={policy.id} className="mb-4">
-            <Card>
-              <Card.Body>
-                <Card.Title>
-                  {policy.viewingType === 'POLICY' ? 'Policy' : 'Quote'} #{policy.id}
-                </Card.Title>
-                <Card.Text>
-                  Type: {policy.driverAge ? 'Auto' : 'Home'}<br />
-                  Total Premium: ${policy.totalPremium.toFixed(2)}<br />
-                  Start Date: {new Date(policy.startDate).toLocaleDateString()}<br />
-                  End Date: {new Date(policy.endDate).toLocaleDateString()}<br />
-                  Status: {policy.activeStatus ? 'Active' : 'Inactive'}
-                </Card.Text>
-                {policy.viewingType === 'POLICY' && (
-                  <div>
-                    <Button
-                      variant="warning"
-                      className="me-2"
-                      onClick={() => navigate(`/renew/${policy.id}`)}
-                    >
-                      Renew
-                    </Button>
-                    <Button
-                      variant="danger"
-                      onClick={() => navigate(`/cancel/${policy.id}`)}
-                    >
-                      Cancel
-                    </Button>
-                  </div>
-                )}
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
+  {autoPolicies.concat(homePolicies)
+    .filter(policy => policy.viewingType === 'POLICY')
+    .map((policy, index) => (
+      <Col md={4} key={`${policy.id}-${index}`} className="mb-4">
+        <Card>
+          <Card.Body>
+            <Card.Title>Policy #{index + 1}</Card.Title>
+            <Card.Text>
+              Type: {policy.insuredAutomobile ? 'Auto' : policy.insuredHome ? 'Home' : 'Unknown'}<br />
+              Total Premium: ${policy.totalPremium.toFixed(2)}<br />
+              Start Date: {new Date(policy.startDate).toLocaleDateString()}<br />
+              End Date: {new Date(policy.endDate).toLocaleDateString()}<br />
+              Status: {policy.activeStatus ? 'Active' : 'Inactive'}
+            </Card.Text>
+            <div>
+              <Button
+                variant="warning"
+                className="me-2"
+                onClick={() => navigate(`/renew/${policy.id}`)}
+              >
+                Renew
+              </Button>
+              <Button
+                variant="danger"
+                onClick={() => navigate(`/cancel/${policy.id}`)}
+              >
+                Cancel
+              </Button>
+            </div>
+          </Card.Body>
+        </Card>
+      </Col>
+    ))}
+</Row>
     </Container>
   );
 };

@@ -58,6 +58,20 @@ const QuoteForm = () => {
         throw new Error('Please log in to generate a quote.');
       }
   
+      // Fetch user policies to determine discounts
+      let hasHomePolicyDiscount = false;
+      let hasAutoPolicyDiscount = false;
+      const autoPoliciesResponse = await api.get(`/${token}/alluserautopolicies`);
+      const homePoliciesResponse = await api.get(`/${token}/alluserhomepolicies`);
+      const activeAutoPolicies = autoPoliciesResponse.data.filter(
+        policy => policy.viewingType === 'POLICY' && policy.activeStatus
+      );
+      const activeHomePolicies = homePoliciesResponse.data.filter(
+        policy => policy.viewingType === 'POLICY' && policy.activeStatus
+      );
+      hasHomePolicyDiscount = activeHomePolicies.length > 0;
+      hasAutoPolicyDiscount = activeAutoPolicies.length > 0;
+  
       const formDataToSend = new FormData();
       let totalPremium = 0;
   
@@ -76,19 +90,23 @@ const QuoteForm = () => {
         factors *= (currentYear - vehicleYear) > 10 ? 2 : (currentYear - vehicleYear) > 5 ? 1.5 : 1;
   
         totalPremium = basePremium * factors * (1 + taxRate);
+        // Apply 10% discount if user has an active home policy
+        if (hasHomePolicyDiscount) {
+          totalPremium *= 0.9; // 10% discount
+        }
   
         formDataToSend.append('driverAge', driverAge);
         formDataToSend.append('insuredAutomobile.vehicleMake', formData.vehicleMake);
         formDataToSend.append('insuredAutomobile.vehicleModel', formData.vehicleModel);
         formDataToSend.append('insuredAutomobile.vehicleManufactureDate', formData.vehicleYear + '-01-01');
-        formDataToSend.append('insuredAutomobile.numberofAccidents', accidents); // Match field name
+        formDataToSend.append('insuredAutomobile.numberofAccidents', accidents);
         formDataToSend.append('basePremium', basePremium);
         formDataToSend.append('taxRate', taxRate);
-        formDataToSend.append('totalPremium', totalPremium.toString()); // Send calculated value
+        formDataToSend.append('totalPremium', totalPremium.toString());
         formDataToSend.append('startDate', new Date().toISOString().split('T')[0]);
         formDataToSend.append('endDate', new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0]);
         formDataToSend.append('activeStatus', '1');
-        formDataToSend.append('hasHomePolicyDiscount', '0');
+        formDataToSend.append('hasHomePolicyDiscount', hasHomePolicyDiscount.toString());
       } else {
         const basePremium = 500;
         const taxRate = 0.15;
@@ -96,32 +114,36 @@ const QuoteForm = () => {
   
         const homeValue = parseFloat(formData.homeValue);
         const liabilityLimit = parseFloat(formData.liabilityLimit);
-        const dateBuilt = parseInt(formData.dateBuilt);
+        const dateBuilt = formData.dateBuilt;
         const heatingType = formData.heatingType;
         const locationType = formData.locationType;
         const currentYear = new Date().getFullYear();
   
         factors *= 1 + (homeValue > 250000 ? (homeValue - 250000) * 0.002 : 0);
         factors *= liabilityLimit >= 2000000 ? 1.25 : 1.0;
-        factors *= (currentYear - dateBuilt) > 50 ? 1.5 : (currentYear - dateBuilt) > 25 ? 1.25 : 1;
-        factors *= heatingType === 'OIL' ? 2.0 : heatingType === 'WOOD' ? 1.25 : 1;
+        factors *= (currentYear - parseInt(dateBuilt)) > 50 ? 1.5 : (currentYear - parseInt(dateBuilt)) > 25 ? 1.25 : 1;
+        factors *= heatingType === 'OIL' ? 2.0 : heatingType === 'GAS' ? 1.25 : 1;
         factors *= locationType === 'RURAL' ? 1.15 : 1.0;
   
         totalPremium = basePremium * factors * (1 + taxRate);
+        // Apply 10% discount if user has an active auto policy
+        if (hasAutoPolicyDiscount) {
+          totalPremium *= 0.9; // 10% discount
+        }
   
-        formDataToSend.append('dateBuilt', dateBuilt);
-        formDataToSend.append('homeValue', homeValue);
-        formDataToSend.append('liabilityLimit', liabilityLimit);
-        formDataToSend.append('dwellingType', formData.dwellingType);
-        formDataToSend.append('heatingType', formData.heatingType);
-        formDataToSend.append('locationType', formData.locationType);
+        formDataToSend.append('insuredHome.dateBuilt', dateBuilt);
+        formDataToSend.append('insuredHome.homeValue', homeValue);
+        formDataToSend.append('insuredHome.liabilityLimit', liabilityLimit);
+        formDataToSend.append('insuredHome.dwellingType', formData.dwellingType);
+        formDataToSend.append('insuredHome.heatingType', formData.heatingType);
+        formDataToSend.append('insuredHome.locationType', formData.locationType);
         formDataToSend.append('basePremium', basePremium);
         formDataToSend.append('taxRate', taxRate);
         formDataToSend.append('totalPremium', totalPremium.toString());
         formDataToSend.append('startDate', new Date().toISOString().split('T')[0]);
         formDataToSend.append('endDate', new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0]);
         formDataToSend.append('activeStatus', '1');
-        formDataToSend.append('hasAutoPolicyDiscount', '0');
+        formDataToSend.append('hasAutoPolicyDiscount', hasAutoPolicyDiscount.toString());
       }
   
       const formDataEntries = {};
@@ -137,16 +159,12 @@ const QuoteForm = () => {
   
       console.log('Backend response:', response.data);
   
-      // Store quote details in localStorage
       const startDate = new Date().toISOString().split('T')[0];
       localStorage.setItem('latestQuote', JSON.stringify({
+        id: response.data.id,
         totalPremium: totalPremium,
         endDate: response.data.endDate || new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString(),
-        policyType: policyType,
-        startDate: startDate,
-        vehicleMake: formData.vehicleMake,
-        vehicleModel: formData.vehicleModel,
-        numberOfAccidents: parseInt(formData.numberOfAccidents || '0')
+        policyType: policyType
       }));
   
       setQuoteResult({
@@ -265,18 +283,17 @@ const QuoteForm = () => {
               <Form.Label>Dwelling Type</Form.Label>
               <Form.Select name="dwellingType" value={formData.dwellingType} onChange={handleChange} required>
                 <option value="">Select...</option>
-                <option value="HOUSE">House</option>
-                <option value="CONDO">Condo</option>
-                <option value="APARTMENT">Apartment</option>
+                <option value="BUNGALOW">Bungalow</option>
+                <option value="STANDALONE">Standalone</option>
               </Form.Select>
-            </Form.Group>
+            </Form.Group> 
             <Form.Group className="mb-3">
               <Form.Label>Heating Type</Form.Label>
               <Form.Select name="heatingType" value={formData.heatingType} onChange={handleChange} required>
                 <option value="">Select...</option>
-                <option value="ELECTRIC">Electric</option>
+                <option value="GAS">Gas</option>
                 <option value="OIL">Oil</option>
-                <option value="WOOD">Wood</option>
+                <option value="ELECTRIC">Electric</option>
               </Form.Select>
             </Form.Group>
             <Form.Group className="mb-3">
@@ -310,61 +327,69 @@ const QuoteForm = () => {
       <p>Valid Until: {new Date(quoteResult.endDate).toLocaleDateString()}</p>
     </Alert>
     <Button
-      onClick={async () => {
-        try {
-          const token = localStorage.getItem('token');
-          if (!token) {
-            throw new Error('Please log in to purchase a policy.');
-          }
+  onClick={async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('Please log in to purchase a policy.');
+      }
 
-          console.log('Fetching quotes with token:', token);
-          const quotesResponse = await api.get(`/${token}/alluser${policyType === 'auto' ? 'auto' : 'home'}policies`);
-          console.log('Quotes response:', quotesResponse.data);
+      // Check active policy limits
+      const autoPoliciesResponse = await api.get(`/${token}/alluserautopolicies`);
+      const homePoliciesResponse = await api.get(`/${token}/alluserhomepolicies`);
+      const activeAutoPolicies = autoPoliciesResponse.data.filter(
+        policy => policy.viewingType === 'POLICY' && policy.activeStatus
+      );
+      const activeHomePolicies = homePoliciesResponse.data.filter(
+        policy => policy.viewingType === 'POLICY' && policy.activeStatus
+      );
 
-          // Find the quote by startDate and viewingType
-          const quoteDetails = JSON.parse(localStorage.getItem('latestQuote') || '{}');
-          const latestQuote = quotesResponse.data
-            .filter(quote => {
-              const quoteStartDate = new Date(quote.startDate).toISOString().split('T')[0];
-              return (
-                quote.viewingType === 'QUOTE' &&
-                quoteStartDate === quoteDetails.startDate &&
-                quote.insuredAutomobile.vehicleMake === quoteDetails.vehicleMake &&
-                quote.insuredAutomobile.vehicleModel === quoteDetails.vehicleModel &&
-                quote.insuredAutomobile.numberofAccidents === quoteDetails.numberOfAccidents
-              );
-            })
-            .sort((a, b) => new Date(b.startDate) - new Date(a.startDate))[0];
-          
-          if (!latestQuote || !latestQuote.id) {
-            throw new Error('Failed to find the quote to purchase or missing quote ID');
-          }
+      if (policyType === 'auto' && activeAutoPolicies.length >= 2) {
+        throw new Error('You have reached the maximum limit of 2 active auto policies.');
+      }
+      if (policyType === 'home' && activeHomePolicies.length >= 1) {
+        throw new Error('You have reached the maximum limit of 1 active home policy.');
+      }
 
-          // Since id might be missing, fetch the quote directly using another endpoint or assume latest
-          console.log('Purchasing quote with ID:', latestQuote.id);
-          const endpoint = policyType === 'auto'
-            ? `/token/${latestQuote.id}/createautopolicyfromquote`
-            : `/token/${latestQuote.id}/createhomepolicyfromquote`;
-          const purchaseResponse = await api.put(endpoint);
-          console.log('Purchase response:', purchaseResponse.data);
+      console.log('Fetching quotes with token:', token);
+      const quotesResponse = await api.get(`/${token}/alluser${policyType === 'auto' ? 'auto' : 'home'}policies`);
+      console.log('Quotes response:', quotesResponse.data);
 
-          alert('Policy created successfully!');
-          localStorage.removeItem('latestQuote');
-          navigate('/policies');
-        } catch (err) {
-          console.error('Purchase policy error:', err);
-          console.error('Error details:', err.response ? err.response.data : err.message);
-          alert('Failed to create policy: ' + (err.message || 'Unknown error'));
-        }
-      }}
-      style={{
-        backgroundColor: 'var(--secondary-color)',
-        borderColor: 'var(--secondary-color)',
-      }}
-      className="w-100"
-    >
-      Purchase Policy
-    </Button>
+      const quoteDetails = JSON.parse(localStorage.getItem('latestQuote') || '{}');
+      console.log('Inspecting quotes:', quotesResponse.data);
+      console.log('Quote details from localStorage:', quoteDetails);
+      const latestQuote = quotesResponse.data.find(quote => 
+        quote.viewingType === 'QUOTE' && quote.id === quoteDetails.id
+      );
+
+      if (!latestQuote) {
+        throw new Error('Failed to find the quote to purchase');
+      }
+
+      console.log('Purchasing quote with ID:', latestQuote.id);
+      const endpoint = policyType === 'auto'
+        ? `/token/${latestQuote.id}/createautopolicyfromquote`
+        : `/token/${latestQuote.id}/createhomepolicyfromquote`;
+      const purchaseResponse = await api.put(endpoint);
+      console.log('Purchase response:', purchaseResponse.data);
+
+      alert('Policy created successfully!');
+      localStorage.removeItem('latestQuote');
+      navigate('/policies');
+    } catch (err) {
+      console.error('Purchase policy error:', err);
+      console.error('Error details:', err.response ? err.response.data : err.message);
+      alert('Failed to create policy: ' + (err.message || 'Unknown error'));
+    }
+  }}
+  style={{
+    backgroundColor: 'var(--secondary-color)',
+    borderColor: 'var(--secondary-color)',
+  }}
+  className="w-100"
+>
+  Purchase Policy
+</Button>
   </div>
 )}
     </Container>
