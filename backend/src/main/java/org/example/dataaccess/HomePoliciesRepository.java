@@ -16,7 +16,7 @@
          */
         Iterable<HomeInsurance> getAllById(Integer id);
         Iterable<HomeInsurance> findBypolicyOwner(User policyOwner);
-        Iterable<HomeInsurance> findBypolicyOwnerAndactiveStatus(User policyOwner, boolean activeStatus);
+        Iterable<HomeInsurance> findBypolicyOwnerAndActiveStatus(User policyOwner, boolean activeStatus);
 
         //Note: I am surprised this works! Spring detects it and fills in the method. Crazy.
         //If this didn't work I would have retrieved all the homes and looped through and grab the homes that

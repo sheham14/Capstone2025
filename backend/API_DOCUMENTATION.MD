@@ -71,6 +71,43 @@ curl -X POST localhost:8080/register -d "name=parker" -d "password=Password1" -d
 
 ### Notes
 
+## /registerrepresenative
+
+### Description
+utilized for creating a user account for use in the system
+
+### Request Body (Form Data)
+
+|Field|Type|Example|Description|
+|---|---|---|---|
+|email|String|Test@notarealdomain.net|the user email for the user|
+|password|String|Password1|the plaintext raw password for the user|
+|name|String|John Smith|the full name of the user|
+|date of birth|LocalDate|2002-12-31|the date of birth for the user|
+
+
+### Example Request
+
+```plainText
+POST /register
+Content-Type: application/x-www-form-urlencoded
+
+email=Test@notarealdomain.net&password=Password1&name=Parker%20Wallace&dateofBirth=2002-12-31
+```
+
+```bash
+curl -X POST localhost:8080/register -d "name=parker" -d "password=Password1" -d "email=parker@gmail.com" -d "dateofBirth=2001-09-26"
+```
+
+### Example Response
+
+```
+"CREATED"
+```
+
+### Notes
+
+
 ## /login
 
 ### Description
@@ -566,12 +603,6 @@ creates a home policy from a quote by changing the viewingtype property
 ### Example Response
 ### Notes
 ## /{TOKEN}/{id}/cancelautopolicy
-### Description
-### Response Body (Form Data)
-### Example Request
-### Example Response
-### Notes
-## /registerrepresenative
 ### Description
 ### Response Body (Form Data)
 ### Example Request
