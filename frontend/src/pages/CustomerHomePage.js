@@ -1,10 +1,10 @@
-// src/pages/CustomerHomepage.js
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 
 const CustomerHomepage = () => {
-  const customerName = 'Customer'; // Placeholder until auth is added
+  const navigate = useNavigate();
+
 
   return (
     <>
@@ -17,10 +17,8 @@ const CustomerHomepage = () => {
         }}
       >
         <Container>
-          <h1>Welcome, {customerName}!</h1>
-          <p className="lead">
-            Manage your insurance needs with ease. Get quotes, view policies, and more.
-          </p>
+          <h1>Welcome to Your Dashboard</h1>
+          <p className="lead">Manage your insurance policies with ease.</p>
         </Container>
       </section>
 
@@ -28,14 +26,11 @@ const CustomerHomepage = () => {
       <section className="py-5">
         <Container>
           <Row xs={1} md={2} lg={3} className="g-4">
-            {/* Get a Quote */}
             <Col>
               <Card className="h-100 text-center">
                 <Card.Body>
                   <Card.Title>Get a Quote</Card.Title>
-                  <Card.Text>
-                    Request a new quote for home or auto insurance in minutes.
-                  </Card.Text>
+                  <Card.Text>Create a quote for a new policy.</Card.Text>
                   <Button
                     as={Link}
                     to="/quote"
@@ -49,15 +44,11 @@ const CustomerHomepage = () => {
                 </Card.Body>
               </Card>
             </Col>
-
-            {/* View Policies */}
             <Col>
               <Card className="h-100 text-center">
                 <Card.Body>
                   <Card.Title>View Policies</Card.Title>
-                  <Card.Text>
-                    Check your active home and auto policies.
-                  </Card.Text>
+                  <Card.Text>Manage your existing policies.</Card.Text>
                   <Button
                     as={Link}
                     to="/policies"
@@ -65,22 +56,17 @@ const CustomerHomepage = () => {
                       backgroundColor: 'var(--secondary-color)',
                       borderColor: 'var(--secondary-color)',
                     }}
-                  
                   >
                     View Policies
                   </Button>
                 </Card.Body>
               </Card>
             </Col>
-
-            {/* Edit Profile */}
             <Col>
               <Card className="h-100 text-center">
                 <Card.Body>
                   <Card.Title>Edit Profile</Card.Title>
-                  <Card.Text>
-                    Update your personal information and preferences.
-                  </Card.Text>
+                  <Card.Text>Update your personal information.</Card.Text>
                   <Button
                     as={Link}
                     to="/profile"
@@ -88,22 +74,17 @@ const CustomerHomepage = () => {
                       backgroundColor: 'var(--secondary-color)',
                       borderColor: 'var(--secondary-color)',
                     }}
-                    disabled
                   >
-                    Edit Profile (Coming Soon)
+                    Edit Profile
                   </Button>
                 </Card.Body>
               </Card>
             </Col>
-
-            {/* Renew Policy */}
             <Col>
               <Card className="h-100 text-center">
                 <Card.Body>
                   <Card.Title>Renew Policy</Card.Title>
-                  <Card.Text>
-                    Renew your policies to stay protected.
-                  </Card.Text>
+                  <Card.Text>Renew your existing policy.</Card.Text>
                   <Button
                     as={Link}
                     to="/renew"
@@ -111,22 +92,17 @@ const CustomerHomepage = () => {
                       backgroundColor: 'var(--secondary-color)',
                       borderColor: 'var(--secondary-color)',
                     }}
-                    disabled
                   >
-                    Renew Policy (Coming Soon)
+                    Renew Policy
                   </Button>
                 </Card.Body>
               </Card>
             </Col>
-
-            {/* Contact Support */}
             <Col>
               <Card className="h-100 text-center">
                 <Card.Body>
                   <Card.Title>Contact Support</Card.Title>
-                  <Card.Text>
-                    Reach out to our service team for assistance.
-                  </Card.Text>
+                  <Card.Text>Need help? Contact our support team.</Card.Text>
                   <Button
                     as={Link}
                     to="/contact"
@@ -134,9 +110,8 @@ const CustomerHomepage = () => {
                       backgroundColor: 'var(--secondary-color)',
                       borderColor: 'var(--secondary-color)',
                     }}
-                    disabled
                   >
-                    Contact Us (Coming Soon)
+                    Contact Support
                   </Button>
                 </Card.Body>
               </Card>

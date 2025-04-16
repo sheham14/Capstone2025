@@ -1,7 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Add useNavigate
 
-function Header({ isAuthenticated = false }) {
+function Header() {
+  const navigate = useNavigate(); // Add this for redirection
+  const isAuthenticated = !!localStorage.getItem('token'); // Check if token exists
+
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // Clear token
+    navigate('/'); // Redirect to landing page
+  };
+
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Services', path: '/services' },
@@ -37,9 +45,12 @@ function Header({ isAuthenticated = false }) {
             ))}
             {isAuthenticated ? (
               <li className="nav-item">
-                <Link className="nav-link text-secondary-color" to="/logout">
+                <button
+                  className="nav-link text-secondary-color btn btn-link"
+                  onClick={handleLogout}
+                >
                   Logout
-                </Link>
+                </button>
               </li>
             ) : (
               <li className="nav-item">
