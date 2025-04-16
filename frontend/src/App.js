@@ -7,7 +7,9 @@ import Quote from './pages/Quote';
 import CustomerLoginPage from './pages/CustomerLoginPage';
 import CustomerHomepage from './pages/CustomerHomePage';
 import EmployeeHomepage from './pages/EmployeeHomePage';
-import ContactForm from './Components/ContactForm'; // or './ContactForm' if it's not in a subfolder
+import ContactForm from './Components/ContactForm'; 
+import AboutUs from './Components/AboutUs';
+
 
 
 function App() {
@@ -16,7 +18,7 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
         <Route path="/contact" element={<ContactForm />} />
-
+        <Route path="/about" element={<AboutUs />} />
           <Route path="/" element={<LandingPage />} />
           <Route path="/policies" element={<Policies />} />
           <Route path="/quote" element={<Quote />} />
