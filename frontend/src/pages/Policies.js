@@ -26,6 +26,36 @@ const Policies = () => {
     fetchPolicies();
   }, []);
 
+  const handleCancel = async (policyId, policyType) => {
+    const confirmCancel = window.confirm("Are you sure you'd like to cancel this policy?");
+    if (confirmCancel) {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          navigate('/customer-login');
+          throw new Error('Please log in to cancel a policy');
+        }
+  
+        let response;
+        if (policyType === 'auto') {
+          response = await api.put(`/${token}/${policyId}/cancelautopolicy`);
+        } else if (policyType === 'home') {
+          response = await api.put(`/${token}/${policyId}/cancelhomepolicy`);
+        } else {
+          throw new Error('Unknown policy type');
+        }
+  
+        if (response.data.success) {
+          alert('Policy canceled successfully!');
+          // Optionally, update the state or refetch data to reflect the cancellation
+        }
+      } catch (err) {
+        console.error(err);
+        alert(err.message || 'Failed to cancel policy. Try again.');
+      }
+    }
+  };
+
   return (
     <Container className="my-5">
       <h2 className="text-center mb-4" style={{ color: 'var(--primary-color)' }}>
@@ -56,7 +86,7 @@ const Policies = () => {
               </Button>
               <Button
                 variant="danger"
-                onClick={() => navigate(`/cancel/${policy.id}`)}
+                onClick={() => handleCancel(policy.id, policy.insuredAutomobile ? 'auto' : 'home')}
               >
                 Cancel
               </Button>
