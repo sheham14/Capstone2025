@@ -35,6 +35,8 @@ public class AutoInsurance extends Policy {
        setTotalPremium(totalPremium);
    }
 
+    public AutoInsurance() {}
+
    public Automobile getInsuredAutomobile() {
        return this.insuredAutomobile;
    }

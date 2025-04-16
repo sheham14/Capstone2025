@@ -1,7 +1,6 @@
-// src/components/QuoteForm.js
 import React, { useState } from 'react';
-import { Form, Button, Container, Alert } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; // Add this import
+import { Form, Button, Alert, Container } from 'react-bootstrap';
 import api from '../services/api';
 
 const QuoteForm = () => {
@@ -19,10 +18,11 @@ const QuoteForm = () => {
     heatingType: '',
     locationType: '',
   });
-  const [error, setError] = useState('');
   const [quoteResult, setQuoteResult] = useState(null);
+  const [error, setError] = useState('');
+  const navigate = useNavigate(); // Add this
 
-  const handleInputChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
@@ -31,8 +31,7 @@ const QuoteForm = () => {
     e.preventDefault();
     setError('');
     setQuoteResult(null);
-
-    // Validation
+  
     if (policyType === 'auto') {
       if (!formData.driverAge || formData.driverAge < 16) {
         setError('Driver age must be 16 or older.');
@@ -52,39 +51,120 @@ const QuoteForm = () => {
         return;
       }
     }
-
+  
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append('type', policyType);
-
-      if (policyType === 'auto') {
-        formDataToSend.append('driverAge', formData.driverAge);
-        formDataToSend.append('insuredVehicle[vehicleMake]', formData.vehicleMake);
-        formDataToSend.append('insuredVehicle[vehicleModel]', formData.vehicleModel);
-        formDataToSend.append('insuredVehicle[vehicleYear]', formData.vehicleYear);
-        formDataToSend.append('insuredVehicle[numberOfAccidents]', formData.numberOfAccidents || '0');
-      } else {
-        formDataToSend.append('insuredHome[dateBuilt]', formData.dateBuilt);
-        formDataToSend.append('insuredHome[homeValue]', formData.homeValue);
-        formDataToSend.append('insuredHome[liabilityLimit]', formData.liabilityLimit);
-        formDataToSend.append('insuredHome[dwellingType]', formData.dwellingType);
-        formDataToSend.append('insuredHome[heatingType]', formData.heatingType);
-        formDataToSend.append('insuredHome[locationType]', formData.locationType);
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('Please log in to generate a quote.');
       }
-
-      const response = await api.post('/quote', formDataToSend, {
+  
+      const formDataToSend = new FormData();
+      let totalPremium = 0;
+  
+      if (policyType === 'auto') {
+        const basePremium = 750;
+        const taxRate = 0.15;
+        let factors = 1;
+  
+        const driverAge = parseInt(formData.driverAge);
+        const vehicleYear = parseInt(formData.vehicleYear);
+        const accidents = parseInt(formData.numberOfAccidents || '0');
+        const currentYear = new Date().getFullYear();
+  
+        factors *= driverAge < 25 ? 2 : 1;
+        factors *= accidents > 2 ? 2.5 : accidents === 1 ? 1.25 : 1;
+        factors *= (currentYear - vehicleYear) > 10 ? 2 : (currentYear - vehicleYear) > 5 ? 1.5 : 1;
+  
+        totalPremium = basePremium * factors * (1 + taxRate);
+  
+        formDataToSend.append('driverAge', driverAge);
+        formDataToSend.append('insuredAutomobile.vehicleMake', formData.vehicleMake);
+        formDataToSend.append('insuredAutomobile.vehicleModel', formData.vehicleModel);
+        formDataToSend.append('insuredAutomobile.vehicleManufactureDate', formData.vehicleYear + '-01-01');
+        formDataToSend.append('insuredAutomobile.numberofAccidents', accidents); // Match field name
+        formDataToSend.append('basePremium', basePremium);
+        formDataToSend.append('taxRate', taxRate);
+        formDataToSend.append('totalPremium', totalPremium.toString()); // Send calculated value
+        formDataToSend.append('startDate', new Date().toISOString().split('T')[0]);
+        formDataToSend.append('endDate', new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0]);
+        formDataToSend.append('activeStatus', '1');
+        formDataToSend.append('hasHomePolicyDiscount', '0');
+      } else {
+        const basePremium = 500;
+        const taxRate = 0.15;
+        let factors = 1;
+  
+        const homeValue = parseFloat(formData.homeValue);
+        const liabilityLimit = parseFloat(formData.liabilityLimit);
+        const dateBuilt = parseInt(formData.dateBuilt);
+        const heatingType = formData.heatingType;
+        const locationType = formData.locationType;
+        const currentYear = new Date().getFullYear();
+  
+        factors *= 1 + (homeValue > 250000 ? (homeValue - 250000) * 0.002 : 0);
+        factors *= liabilityLimit >= 2000000 ? 1.25 : 1.0;
+        factors *= (currentYear - dateBuilt) > 50 ? 1.5 : (currentYear - dateBuilt) > 25 ? 1.25 : 1;
+        factors *= heatingType === 'OIL' ? 2.0 : heatingType === 'WOOD' ? 1.25 : 1;
+        factors *= locationType === 'RURAL' ? 1.15 : 1.0;
+  
+        totalPremium = basePremium * factors * (1 + taxRate);
+  
+        formDataToSend.append('dateBuilt', dateBuilt);
+        formDataToSend.append('homeValue', homeValue);
+        formDataToSend.append('liabilityLimit', liabilityLimit);
+        formDataToSend.append('dwellingType', formData.dwellingType);
+        formDataToSend.append('heatingType', formData.heatingType);
+        formDataToSend.append('locationType', formData.locationType);
+        formDataToSend.append('basePremium', basePremium);
+        formDataToSend.append('taxRate', taxRate);
+        formDataToSend.append('totalPremium', totalPremium.toString());
+        formDataToSend.append('startDate', new Date().toISOString().split('T')[0]);
+        formDataToSend.append('endDate', new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0]);
+        formDataToSend.append('activeStatus', '1');
+        formDataToSend.append('hasAutoPolicyDiscount', '0');
+      }
+  
+      const formDataEntries = {};
+      for (const [key, value] of formDataToSend.entries()) {
+        formDataEntries[key] = value;
+      }
+      console.log('FormData being sent:', formDataEntries);
+  
+      const endpoint = policyType === 'auto' ? `/${token}/autoquote` : `/${token}/homequote`;
+      const response = await api.post(endpoint, formDataToSend, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      setQuoteResult(response.data);
+  
+      console.log('Backend response:', response.data);
+  
+      // Store quote details in localStorage
+      const startDate = new Date().toISOString().split('T')[0];
+      localStorage.setItem('latestQuote', JSON.stringify({
+        totalPremium: totalPremium,
+        endDate: response.data.endDate || new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString(),
+        policyType: policyType,
+        startDate: startDate,
+        vehicleMake: formData.vehicleMake,
+        vehicleModel: formData.vehicleModel,
+        numberOfAccidents: parseInt(formData.numberOfAccidents || '0')
+      }));
+  
+      setQuoteResult({
+        totalPremium: totalPremium,
+        endDate: response.data.endDate || new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString(),
+      });
     } catch (err) {
-      setError('Failed to generate quote. Please try again.');
+      setError(err.message || 'Failed to generate quote. Please try again.');
       console.error(err);
     }
   };
 
   return (
     <Container className="my-5">
-      <h2 className="text-center mb-4 text-primary-color">Get a Quote</h2>
+      <h2 className="text-center mb-4" style={{ color: 'var(--primary-color)' }}>
+        Get a Quote
+      </h2>
+      {error && <Alert variant="danger">{error}</Alert>}
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
           <Form.Label>Policy Type</Form.Label>
@@ -92,8 +172,8 @@ const QuoteForm = () => {
             value={policyType}
             onChange={(e) => setPolicyType(e.target.value)}
           >
-            <option value="auto">Auto Insurance</option>
-            <option value="home">Home Insurance</option>
+            <option value="auto">Auto</option>
+            <option value="home">Home</option>
           </Form.Select>
         </Form.Group>
 
@@ -105,10 +185,8 @@ const QuoteForm = () => {
                 type="number"
                 name="driverAge"
                 value={formData.driverAge}
-                onChange={handleInputChange}
+                onChange={handleChange}
                 required
-                min="16"
-                className="form-control"
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -117,9 +195,8 @@ const QuoteForm = () => {
                 type="text"
                 name="vehicleMake"
                 value={formData.vehicleMake}
-                onChange={handleInputChange}
+                onChange={handleChange}
                 required
-                className="form-control"
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -128,9 +205,8 @@ const QuoteForm = () => {
                 type="text"
                 name="vehicleModel"
                 value={formData.vehicleModel}
-                onChange={handleInputChange}
+                onChange={handleChange}
                 required
-                className="form-control"
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -139,11 +215,8 @@ const QuoteForm = () => {
                 type="number"
                 name="vehicleYear"
                 value={formData.vehicleYear}
-                onChange={handleInputChange}
+                onChange={handleChange}
                 required
-                min="1900"
-                max={new Date().getFullYear() + 1}
-                className="form-control"
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -152,10 +225,7 @@ const QuoteForm = () => {
                 type="number"
                 name="numberOfAccidents"
                 value={formData.numberOfAccidents}
-                onChange={handleInputChange}
-                min="0"
-                placeholder="0"
-                className="form-control"
+                onChange={handleChange}
               />
             </Form.Group>
           </>
@@ -167,9 +237,8 @@ const QuoteForm = () => {
                 type="date"
                 name="dateBuilt"
                 value={formData.dateBuilt}
-                onChange={handleInputChange}
+                onChange={handleChange}
                 required
-                className="form-control"
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -178,11 +247,8 @@ const QuoteForm = () => {
                 type="number"
                 name="homeValue"
                 value={formData.homeValue}
-                onChange={handleInputChange}
+                onChange={handleChange}
                 required
-                min="0"
-                step="1000"
-                className="form-control"
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -191,54 +257,34 @@ const QuoteForm = () => {
                 type="number"
                 name="liabilityLimit"
                 value={formData.liabilityLimit}
-                onChange={handleInputChange}
+                onChange={handleChange}
                 required
-                min="0"
-                step="1000"
-                className="form-control"
               />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Dwelling Type</Form.Label>
-              <Form.Select
-                name="dwellingType"
-                value={formData.dwellingType}
-                onChange={handleInputChange}
-                required
-                className="form-select"
-              >
+              <Form.Select name="dwellingType" value={formData.dwellingType} onChange={handleChange} required>
                 <option value="">Select...</option>
-                <option value="BUNGALOW">Bungalow</option>
-                <option value="STANDALONE">Standalone</option>
+                <option value="HOUSE">House</option>
+                <option value="CONDO">Condo</option>
+                <option value="APARTMENT">Apartment</option>
               </Form.Select>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Heating Type</Form.Label>
-              <Form.Select
-                name="heatingType"
-                value={formData.heatingType}
-                onChange={handleInputChange}
-                required
-                className="form-select"
-              >
+              <Form.Select name="heatingType" value={formData.heatingType} onChange={handleChange} required>
                 <option value="">Select...</option>
-                <option value="GAS">Gas</option>
-                <option value="OIL">Oil</option>
                 <option value="ELECTRIC">Electric</option>
+                <option value="OIL">Oil</option>
+                <option value="WOOD">Wood</option>
               </Form.Select>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Location Type</Form.Label>
-              <Form.Select
-                name="locationType"
-                value={formData.locationType}
-                onChange={handleInputChange}
-                required
-                className="form-select"
-              >
+              <Form.Select name="locationType" value={formData.locationType} onChange={handleChange} required>
                 <option value="">Select...</option>
-                <option value="RURAL">Rural</option>
                 <option value="URBAN">Urban</option>
+                <option value="RURAL">Rural</option>
               </Form.Select>
             </Form.Group>
           </>
@@ -246,37 +292,81 @@ const QuoteForm = () => {
 
         <Button
           type="submit"
-          className="w-100 btn-secondary-color"
+          style={{
+            backgroundColor: 'var(--secondary-color)',
+            borderColor: 'var(--secondary-color)',
+          }}
+          className="w-100"
         >
           Get Quote
         </Button>
       </Form>
 
-      {error && (
-        <Alert variant="danger" className="mt-4">
-          {error}
-        </Alert>
-      )}
-      {quoteResult && (
-        <div className="mt-4">
-          <Alert variant="success">
-            <p>Quote ID: {quoteResult.quoteId}</p>
-            <p>Total Premium: ${quoteResult.totalPremium.toFixed(2)}</p>
-            <p>Valid Until: {new Date(quoteResult.endDate).toLocaleDateString()}</p>
-          </Alert>
-          <Button
-            as={Link}
-            to="/purchase"
-            style={{
-              backgroundColor: 'var(--secondary-color)',
-              borderColor: 'var(--secondary-color)',
-            }}
-            className="w-100"
-          >
-            Purchase Policy
-          </Button>
-        </div>
-      )}
+
+{quoteResult && (
+  <div className="mt-4">
+    <Alert variant="success">
+      <p>Total Premium: ${quoteResult.totalPremium.toFixed(2)}</p>
+      <p>Valid Until: {new Date(quoteResult.endDate).toLocaleDateString()}</p>
+    </Alert>
+    <Button
+      onClick={async () => {
+        try {
+          const token = localStorage.getItem('token');
+          if (!token) {
+            throw new Error('Please log in to purchase a policy.');
+          }
+
+          console.log('Fetching quotes with token:', token);
+          const quotesResponse = await api.get(`/${token}/alluser${policyType === 'auto' ? 'auto' : 'home'}policies`);
+          console.log('Quotes response:', quotesResponse.data);
+
+          // Find the quote by startDate and viewingType
+          const quoteDetails = JSON.parse(localStorage.getItem('latestQuote') || '{}');
+          const latestQuote = quotesResponse.data
+            .filter(quote => {
+              const quoteStartDate = new Date(quote.startDate).toISOString().split('T')[0];
+              return (
+                quote.viewingType === 'QUOTE' &&
+                quoteStartDate === quoteDetails.startDate &&
+                quote.insuredAutomobile.vehicleMake === quoteDetails.vehicleMake &&
+                quote.insuredAutomobile.vehicleModel === quoteDetails.vehicleModel &&
+                quote.insuredAutomobile.numberofAccidents === quoteDetails.numberOfAccidents
+              );
+            })
+            .sort((a, b) => new Date(b.startDate) - new Date(a.startDate))[0];
+          
+          if (!latestQuote || !latestQuote.id) {
+            throw new Error('Failed to find the quote to purchase or missing quote ID');
+          }
+
+          // Since id might be missing, fetch the quote directly using another endpoint or assume latest
+          console.log('Purchasing quote with ID:', latestQuote.id);
+          const endpoint = policyType === 'auto'
+            ? `/token/${latestQuote.id}/createautopolicyfromquote`
+            : `/token/${latestQuote.id}/createhomepolicyfromquote`;
+          const purchaseResponse = await api.put(endpoint);
+          console.log('Purchase response:', purchaseResponse.data);
+
+          alert('Policy created successfully!');
+          localStorage.removeItem('latestQuote');
+          navigate('/policies');
+        } catch (err) {
+          console.error('Purchase policy error:', err);
+          console.error('Error details:', err.response ? err.response.data : err.message);
+          alert('Failed to create policy: ' + (err.message || 'Unknown error'));
+        }
+      }}
+      style={{
+        backgroundColor: 'var(--secondary-color)',
+        borderColor: 'var(--secondary-color)',
+      }}
+      className="w-100"
+    >
+      Purchase Policy
+    </Button>
+  </div>
+)}
     </Container>
   );
 };

@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
     @Autowired private UserRepository userRepository;
     @Autowired private TokenRepository tokenRepository;

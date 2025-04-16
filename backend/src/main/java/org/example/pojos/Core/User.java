@@ -30,7 +30,7 @@ public class User {
      * The unique identifier for this User.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
     private String username;

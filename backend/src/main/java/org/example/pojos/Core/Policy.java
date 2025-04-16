@@ -24,7 +24,7 @@ public abstract class Policy {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
@@ -77,6 +77,9 @@ public Policy() {}
     }
    }
 
+    public Integer getId() {
+        return id;
+    }
    public User getPolicyOwner() {
        return this.policyOwner;
    }

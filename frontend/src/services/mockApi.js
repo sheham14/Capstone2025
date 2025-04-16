@@ -50,11 +50,11 @@ const mockUsers = [
   
   const mockApi = {
     get: async (url) => {
-      if (url === '/policies/me') {
-        return {
-          data: mockPolicies, // Return array of policies
-        };
-      }
+        if (url === '/policies/me') {
+            return {
+              data: mockPolicies,
+            };
+          }
       throw new Error('Not implemented');
     },
     post: async (url, formData) => {
@@ -153,7 +153,7 @@ const mockUsers = [
           throw new Error('Invalid email or password');
         }
         
-        return { data: { message: 'Login successful', userId: user.id } };
+        return { data: { message: 'Login successful', userId: user.id, token: 'token123' } };
       }
       throw new Error('Not implemented');
     },

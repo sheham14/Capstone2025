@@ -24,11 +24,16 @@ const Register = () => {
     setError('');
     try {
       const data = new FormData();
-      Object.keys(formData).forEach(key => data.append(key, formData[key]));
-      const response = await api.post('/api/users', data);
+      data.append('email', formData.email);
+      data.append('username', formData.username);
+      data.append('password', formData.password);
+      data.append('dateOfBirth', formData.dateOfBirth); // Match User field
+      data.append('role', formData.role);
+      console.log(formData);
+      const response = await api.post('/register', data); // Use /register
       navigate('/customer-login');
     } catch (err) {
-      setError(err.message || 'Registration failed. Try again.');
+      setError(err.response?.data || 'Registration failed. Try again.');
     }
   };
 

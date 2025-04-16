@@ -8,10 +8,13 @@ function CustomerLoginPage() {
 
   const handleLogin = async (credentials) => {
     try {
-      const data = new FormData();
-      data.append('email', credentials.email);
-      data.append('password', credentials.password);
-      const response = await api.post('/api/login', data);
+      const response = await api.post('/login', null, {
+        params: { email: credentials.email, password: credentials.password },
+      });
+      if (!response.data) {
+        throw new Error('Invalid email or password');
+      }
+      localStorage.setItem('token', response.data);
       navigate('/customer-home');
     } catch (err) {
       alert(err.message || 'Login failed. Try again.');
@@ -26,8 +29,10 @@ function CustomerLoginPage() {
             <LoginForm
               title="Customer Login"
               onSubmit={handleLogin}
-              linkText="Employee Login"
-              linkPath="/employee-login"
+              links={[
+                { text: 'Employee Login', path: '/employee-login' },
+                { text: 'Register', path: '/register' },
+              ]}
             />
           </div>
         </div>

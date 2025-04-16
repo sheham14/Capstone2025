@@ -20,6 +20,7 @@ import java.util.UUID;
  * The main controller for this application. Controllers can be split by the base URL in the request mapping
  */
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping(path = RESTNouns.TOKEN)
 public class MainController {
 
