@@ -156,7 +156,7 @@ const Policies = () => {
        >
                 Renew
               </Button>
-                                  <Button variant={policy.activeStatus ? "danger" : "success"} size="sm" onClick={() => policy.activeStatus ? handleCancel(policy.id, policy.id, policy.insuredAutomobile ? 'auto' : 'home') : handleActivate(policy.id, policy.id, policy.insuredAutomobile ? 'auto' : 'home')}>{policy.activeStatus ? 'cancel' : 'activate'}</Button>
+              <Button variant={policy.activeStatus ? "danger" : "success"}  onClick={() => policy.activeStatus ? handleCancel(policy.id, policy.insuredAutomobile ? 'auto' : 'home') : handleActivate(policy.id, policy.insuredAutomobile ? 'auto' : 'home')}>{policy.activeStatus ? 'cancel' : 'activate'}</Button>
             </div>
           </Card.Body>
         </Card>

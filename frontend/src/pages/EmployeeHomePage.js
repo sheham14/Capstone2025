@@ -144,7 +144,7 @@ const EmployeeHomePage = () => {
                   </Card.Text>
                   <Button
                     as={Link}
-                    to="/reports/premiums"
+                    to="/rating-factors"
                     style={{
                       backgroundColor: 'var(--secondary-color)',
                       borderColor: 'var(--secondary-color)',

@@ -138,39 +138,30 @@ public class MainController {
 
     @GetMapping("/allhomepolicies")
     public Iterable<HomeInsurance> getAllHomePolicies(@PathVariable("token") UUID token) {
-        if (tokenRepository.Token(token).getTokenOwner().getRole() != Role.REPRESENTATIVE) {
-            return null;
-        }
-        else {
+
+  
         Iterable<HomeInsurance> homePolicies = homePoliciesRepository.findAll();
         return homePolicies;
-        }
+        
         
     }
 
     @GetMapping("/allautopolicies")
     public Iterable<AutoInsurance> getAllAutoPolicies(@PathVariable("token") UUID token) {
-        if (tokenRepository.Token(token).getTokenOwner().getRole() != Role.REPRESENTATIVE) {
-            return null;
-        }
-        else {
+
         Iterable<AutoInsurance> autoPolicies = autoPoliciesRepository.findAll();
         return autoPolicies;
-        }
+    
         
     }
 
     @GetMapping("/allpolicies")
     public UserPoliciesResponse getAllActivePolicies(@PathVariable("token") UUID token) {
-        if (tokenRepository.Token(token).getTokenOwner().getRole() != Role.REPRESENTATIVE) {
-            return null;
-        }
-        else {
         Iterable<HomeInsurance> homePolicies = homePoliciesRepository.findAll();
         Iterable<AutoInsurance> autoPolicies = autoPoliciesRepository.findAll();
         UserPoliciesResponse allPoliciesResponse = new UserPoliciesResponse(homePolicies, autoPolicies);
         return allPoliciesResponse;
-        }
+        
         
     }
     

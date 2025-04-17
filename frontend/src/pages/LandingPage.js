@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 function LandingPage() {
 
   const token = localStorage.getItem('token');
-  const getAQuoteLink = token ? localStorage.getItem('session-type') == 'CUSTOMER' ? 'customer-home' : 'employee-home' : '/customer-login'
+  const getAQuoteLink = token ? localStorage.getItem('session-type') == 'CUSTOMER' ? 'quote' : 'employee-home' : '/customer-login'
 
   return (
     <div>
@@ -106,7 +106,7 @@ function LandingPage() {
           <p className="lead mb-4">
             Contact us today for a personalized insurance quote.
           </p>
-          <Link to="/login" className="btn btn-lg btn-secondary-color">
+          <Link to="/contact" className="btn btn-lg btn-secondary-color">
             Contact Us
           </Link>
         </div>

@@ -174,7 +174,7 @@ const AllPoliciesByType = () => {
                 <tr key={policy.id}>
                   <td>{policy.id}</td>
                   <td>${policy.totalPremium.toFixed(2)}</td>
-                  <td>${policy.policyOwner}</td>
+                  <td>{policy.policyOwner.username}</td>
                   <td>{new Date(policy.startDate).toLocaleDateString()}</td>
                   <td>{new Date(policy.endDate).toLocaleDateString()}</td>
                   <td>{policy.activeStatus ? 'Active' : 'Inactive'}</td>
