@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
     @Autowired private UserRepository userRepository;
     @Autowired private TokenRepository tokenRepository;
@@ -40,13 +41,10 @@ public class UserController {
      * Get Mapping for all users
      */
     @GetMapping(RESTNouns.TOKEN + "/allusers")
-    public Iterable<User> getAllUsers(@PathVariable("token") UUID token) {
-        if (tokenRepository.Token(token).getTokenOwner().getRole() != Role.REPRESENTATIVE) {
-            return null;
-        }
-        else {
+    public @ResponseBody Iterable<User> getAllUsers(@PathVariable("token") UUID token) {
+
         return userRepository.findAll();
-        }
+
         
     }
 
@@ -70,6 +68,7 @@ public class UserController {
     public HttpStatus createCustomer(
             @ModelAttribute User user) {
                 user.setRole(User.Role.CUSTOMER);
+                user.setActiveStatus(true);
                 userRepository.save(user);
         return HttpStatus.CREATED;
     }

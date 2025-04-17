@@ -2,6 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 function LandingPage() {
+
+  const token = localStorage.getItem('token');
+  const getAQuoteLink = token ? localStorage.getItem('session-type') == 'CUSTOMER' ? 'customer-home' : 'employee-home' : '/customer-login'
+
   return (
     <div>
       {/* Hero Section */}
@@ -11,7 +15,7 @@ function LandingPage() {
           <p className="lead mb-4">
             Comprehensive insurance solutions tailored to your needs.
           </p>
-          <Link to="/customer-login" className="btn btn-lg btn-secondary-color">
+          <Link to={getAQuoteLink} className="btn btn-lg btn-secondary-color">
             Get a Quote
           </Link>
         </div>
