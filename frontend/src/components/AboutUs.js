@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { Link } from 'react-router-dom';
 
 function AboutUs() {
+  const token = localStorage.getItem('token');
   useEffect(() => {
     AOS.init({ duration: 1000 });
   }, []);
@@ -27,7 +29,7 @@ function AboutUs() {
             Taylor Insurance Inc. is a privately owned and operated insurance brokerage based out of Conche, Newfoundland and Labrador. With strategically located offices throughout the province and dedicated, accessible insurance representatives, we make customer service our top priority.
           </p>
           <p>
-            <strong>Founded in 2005 in St. John’s, Newfoundland and Labrador</strong>, Taylor Insurance has grown from a single local office into a modern insurance brokerage supporting thousands of customers across the province.
+            <strong>Founded in 2005 in Conche, Newfoundland and Labrador</strong>, Taylor Insurance has grown from a single local office into a modern insurance brokerage supporting thousands of customers across the province.
           </p>
           <p>
             While some providers emphasize a century of tradition, we focus on agility, innovation, and what truly matters today — fast, transparent service delivered by real people who care.
@@ -120,7 +122,10 @@ function AboutUs() {
       <section className="text-center py-5 bg-white" data-aos="fade-up">
         <h4 className="mb-3 fw-bold">Ready to get started?</h4>
         <p className="text-muted">Explore our services or request a quote today — we're here to help.</p>
-        <a href="/services" className="btn btn-lg mt-3" style={{ backgroundColor: '#d4aa00', color: '#000' }}>View Services</a>
+        <Link to={token ? '/customer-home' : 'customer-login'} className="btn btn-lg mt-3" style={{ backgroundColor: '#d4aa00', color: '#000' }}>
+            View Services
+          </Link>
+        
       </section>
     </>
   );

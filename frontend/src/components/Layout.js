@@ -4,9 +4,9 @@ import Header from './Header';
 import Footer from './Footer';
 
 const Layout = () => (
-  <div>
+  <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
     <Header/>
-    <main>
+    <main style={{ flex: 1 }}>
       <Outlet />
     </main>
     <Footer />
