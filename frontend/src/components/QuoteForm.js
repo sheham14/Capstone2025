@@ -98,7 +98,7 @@ const QuoteForm = () => {
         factors *= accidents > 2 ? 2.5 : accidents === 1 ? 1.25 : 1;
         factors *= (currentYear - vehicleYear) > 10 ? 2 : (currentYear - vehicleYear) > 5 ? 1.5 : 1;
   
-        totalPremium = basePremium * factors * (1 + taxRate);
+        totalPremium = basePremium + factors * (1 + taxRate);
         // Apply 10% discount if user has an active home policy
         if (hasHomePolicyDiscount) {
           totalPremium *= 0.9; // 10% discount
@@ -134,7 +134,7 @@ const QuoteForm = () => {
         factors *= heatingType === 'OIL' ? 2.0 : heatingType === 'GAS' ? 1.25 : 1;
         factors *= locationType === 'RURAL' ? 1.15 : 1.0;
   
-        totalPremium = basePremium * factors * (1 + taxRate);
+        totalPremium = basePremium + factors * (1 + taxRate);
         // Apply 10% discount if user has an active auto policy
         if (hasAutoPolicyDiscount) {
           totalPremium *= 0.9; // 10% discount
@@ -371,7 +371,7 @@ const QuoteForm = () => {
       }
 
       console.log('Fetching quotes with token:', token);
-      const quotesResponse = await api.get(`/${token}/alluser${policyType === 'auto' ? 'auto' : 'home'}policies${userId ? `byid/${userId}`: null}`);
+      const quotesResponse = await api.get(`/${token}/alluser${policyType === 'auto' ? 'auto' : 'home'}policies${userId ? `byid/${userId}`: ""}`);
       console.log('Quotes response:', quotesResponse.data);
 
       const quoteDetails = JSON.parse(localStorage.getItem('latestQuote') || '{}');

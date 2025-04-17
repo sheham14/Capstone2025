@@ -45,7 +45,7 @@ public abstract class Policy {
     
     private boolean activeStatus; 
     
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private POLICYVIEWINGTYPE viewingType ;
 
 public Policy() {}

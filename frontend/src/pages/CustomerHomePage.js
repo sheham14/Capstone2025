@@ -35,7 +35,7 @@ const CustomerHomepage = () => {
                   <Card.Text>Create a quote for a new policy.</Card.Text>
                   <Button
                     as={Link}
-                    to={`/quote/${userId}`}
+                    to={`/quote${userId ? `/${userId}` : ""}`}
                     style={{
                       backgroundColor: 'var(--secondary-color)',
                       borderColor: 'var(--secondary-color)',
@@ -53,7 +53,7 @@ const CustomerHomepage = () => {
                   <Card.Text>Manage your existing policies.</Card.Text>
                   <Button
                     as={Link}
-                    to={`/policies/${userId}`}
+                    to={`/policies${userId ? `/${userId}` : ""}`}
                     style={{
                       backgroundColor: 'var(--secondary-color)',
                       borderColor: 'var(--secondary-color)',
@@ -71,7 +71,7 @@ const CustomerHomepage = () => {
                   <Card.Text>Update your personal information.</Card.Text>
                   <Button
                     as={Link}
-                    to="/profile"
+                    to="/rating-factors"
                     style={{
                       backgroundColor: 'var(--secondary-color)',
                       borderColor: 'var(--secondary-color)',
