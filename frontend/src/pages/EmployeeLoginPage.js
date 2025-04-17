@@ -16,6 +16,7 @@ const handleLogin = async (credentials) => {
       throw new Error('Invalid email or password');
     }
     localStorage.setItem('token', response.data);
+    localStorage.setItem('session-type', 'EMPLOYEE');
     navigate('/employee-home');
   } catch (err) {
     alert(err.message || 'Login failed. Try again.');

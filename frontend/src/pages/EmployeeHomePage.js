@@ -24,7 +24,7 @@ const EmployeeHomePage = () => {
       <section className="py-5">
         <Container>
           <Row xs={1} md={2} lg={3} className="g-4">
-            {/* Get a Quote */}
+            {/* Get a Quote
             <Col>
               <Card className="h-100 text-center">
                 <Card.Body>
@@ -42,9 +42,9 @@ const EmployeeHomePage = () => {
                   </Button>
                 </Card.Body>
               </Card>
-            </Col>
+            </Col> */}
 
-            {/* Renew Policy */}
+            {/* Renew Policy
             <Col>
               <Card className="h-100 text-center">
                 <Card.Body>
@@ -62,9 +62,9 @@ const EmployeeHomePage = () => {
                   </Button>
                 </Card.Body>
               </Card>
-            </Col>
+            </Col> */}
 
-            {/* Cancel Policy */}
+            {/* Cancel Policy
             <Col>
               <Card className="h-100 text-center">
                 <Card.Body>
@@ -82,21 +82,21 @@ const EmployeeHomePage = () => {
                     </Button>
                 </Card.Body>
                 </Card>
-            </Col>
+            </Col> */}
 
             {/* Active Policies & Quotes Report */}
             <Col>
               <Card className="h-100 text-center">
                 <Card.Body>
-                  <Card.Title>Active Policies & Quotes</Card.Title>
+                  <Card.Title>All Policies & Quotes</Card.Title>
                   <Card.Text>
-                    View active policies and quotes.
+                    View All policies and quotes.
                     <br />
                     <small className="text-muted">5 policies, 3 quotes active</small>
                   </Card.Text>
                   <Button
                     as={Link}
-                    to="/reports/active"
+                    to="/allpolicies"
                     style={{
                       backgroundColor: 'var(--secondary-color)',
                       borderColor: 'var(--secondary-color)',
@@ -120,7 +120,7 @@ const EmployeeHomePage = () => {
                   </Card.Text>
                   <Button
                     as={Link}
-                    to="/reports/home-auto"
+                    to="/allpoliciesbytype"
                     style={{
                       backgroundColor: 'var(--secondary-color)',
                       borderColor: 'var(--secondary-color)',
@@ -164,7 +164,7 @@ const EmployeeHomePage = () => {
                   <Card.Text>Update risk factors for home policies.</Card.Text>
                   <Button
                     as={Link}
-                    to="/rating-factors/home"
+                    to="/rating-factors"
                     style={{
                       backgroundColor: 'var(--secondary-color)',
                       borderColor: 'var(--secondary-color)',
@@ -184,7 +184,7 @@ const EmployeeHomePage = () => {
                   <Card.Text>Update risk factors for auto policies.</Card.Text>
                   <Button
                     as={Link}
-                    to="/rating-factors/auto"
+                    to="/rating-factors"
                     style={{
                       backgroundColor: 'var(--secondary-color)',
                       borderColor: 'var(--secondary-color)',

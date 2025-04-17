@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 function LandingPage() {
 
   const token = localStorage.getItem('token');
-  const getAQuoteLink = token ? 'customer-dashboard' : '/customer-login'
+  const getAQuoteLink = token ? localStorage.getItem('session-type') == 'CUSTOMER' ? 'customer-home' : 'employee-home' : '/customer-login'
 
   return (
     <div>

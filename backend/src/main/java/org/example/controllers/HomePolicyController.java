@@ -1,5 +1,6 @@
 package org.example.controllers;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.example.dataaccess.HomePoliciesRepository;
@@ -36,7 +37,7 @@ public class HomePolicyController {
      * @return
      */
     @PutMapping("/updatehomepolicyhome")
-    public @ResponseBody HttpStatus updateUser(
+    public @ResponseBody HttpStatus updateinsuredhome(
             @PathVariable("id") Integer policyId, @ModelAttribute HomeInsurance homeInsurance) {
         if (homePoliciesRepository.existsById(policyId)) {
             Optional<HomeInsurance> homePolicy = homePoliciesRepository.findById(policyId);
@@ -50,7 +51,25 @@ public class HomePolicyController {
         }
     }
 
-    @PutMapping("createhomepolicyfromquote")
+    @PutMapping("/renewhomepolicy")
+    public @ResponseBody HttpStatus renewPolicy(
+        @PathVariable("id") Integer policyId){
+            if (homePoliciesRepository.existsById(policyId)) {
+                Optional<HomeInsurance> homePolicy = homePoliciesRepository.findById(policyId);
+                if (homePolicy.isPresent()) {
+                    LocalDate newEnddate = homePolicy.get().getEndDate().plusYears(1);
+                    homePolicy.get().setEndDate(newEnddate);
+                }
+                homePoliciesRepository.save(homePolicy.get());
+                
+            return HttpStatus.ACCEPTED;
+            }else {
+                return HttpStatus.CONFLICT;
+            }
+    
+    }
+
+    @PutMapping("/createhomepolicyfromquote")
     public @ResponseBody HttpStatus createPolicyFromQuote(
             @PathVariable("id") Integer policyId) {
         if (homePoliciesRepository.existsById(policyId)) {
@@ -66,13 +85,13 @@ public class HomePolicyController {
 
     }
 
-    @PutMapping("cancelhomepolicy")
+    @PutMapping("/cancelhomepolicy")
         public @ResponseBody HttpStatus cancelPolicy(
             @PathVariable("id") Integer policyId){
         if (homePoliciesRepository.existsById(policyId)) {
             Optional<HomeInsurance> homePolicy = homePoliciesRepository.findById(policyId);
-            if(homePolicy.isPresent()){
-            homePolicy.get().setActiveStatus(false);
+            if (homePolicy.isPresent()) {
+                homePolicy.get().setActiveStatus(false);
             }
             homePoliciesRepository.save(homePolicy.get());
             
@@ -80,6 +99,23 @@ public class HomePolicyController {
         }else {
             return HttpStatus.CONFLICT;
         }
+
+}
+
+@PutMapping("/activatehomepolicy")
+public @ResponseBody HttpStatus acticatepolicy(
+    @PathVariable("id") Integer policyId){
+if (homePoliciesRepository.existsById(policyId)) {
+    Optional<HomeInsurance> homePolicy = homePoliciesRepository.findById(policyId);
+    if (homePolicy.isPresent()) {
+        homePolicy.get().setActiveStatus(true);
+    }
+    homePoliciesRepository.save(homePolicy.get());
+    
+return HttpStatus.ACCEPTED;
+}else {
+    return HttpStatus.CONFLICT;
+}
 
 }
 }

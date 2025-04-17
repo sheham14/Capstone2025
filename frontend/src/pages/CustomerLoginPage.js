@@ -15,6 +15,7 @@ function CustomerLoginPage() {
         throw new Error('Invalid email or password');
       }
       localStorage.setItem('token', response.data);
+      localStorage.setItem('session-type', 'CUSTOMER');
       navigate('/customer-home');
     } catch (err) {
       alert(err.message || 'Login failed. Try again.');

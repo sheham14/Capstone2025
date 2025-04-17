@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
 
 const CustomerHomepage = () => {
   const navigate = useNavigate();
+  const { userId } = useParams();
 
 
   return (
@@ -33,7 +35,7 @@ const CustomerHomepage = () => {
                   <Card.Text>Create a quote for a new policy.</Card.Text>
                   <Button
                     as={Link}
-                    to="/quote"
+                    to={`/quote/${userId}`}
                     style={{
                       backgroundColor: 'var(--secondary-color)',
                       borderColor: 'var(--secondary-color)',
@@ -51,7 +53,7 @@ const CustomerHomepage = () => {
                   <Card.Text>Manage your existing policies.</Card.Text>
                   <Button
                     as={Link}
-                    to="/policies"
+                    to={`/policies/${userId}`}
                     style={{
                       backgroundColor: 'var(--secondary-color)',
                       borderColor: 'var(--secondary-color)',
@@ -80,7 +82,7 @@ const CustomerHomepage = () => {
                 </Card.Body>
               </Card>
             </Col>
-            <Col>
+            {/* <Col>
               <Card className="h-100 text-center">
                 <Card.Body>
                   <Card.Title>Renew Policy</Card.Title>
@@ -97,7 +99,7 @@ const CustomerHomepage = () => {
                   </Button>
                 </Card.Body>
               </Card>
-            </Col>
+            </Col> */}
             <Col>
               <Card className="h-100 text-center">
                 <Card.Body>

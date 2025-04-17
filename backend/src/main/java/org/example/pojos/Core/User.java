@@ -130,7 +130,7 @@ public class User {
         this.role = role;
     }
 
-    public boolean activeStatus() {
+    public boolean getActiveStatus() {
         return this.activeStatus;
     }
 

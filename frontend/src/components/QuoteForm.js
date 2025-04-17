@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Add this import
+import { useNavigate, useParams } from 'react-router-dom'; // Add this import
 import { Form, Button, Alert, Container } from 'react-bootstrap';
 import api from '../services/api';
 
 const QuoteForm = () => {
+  const { userId } = useParams();
   const [policyType, setPolicyType] = useState('auto');
   const [formData, setFormData] = useState({
     driverAge: '',
@@ -61,8 +62,16 @@ const QuoteForm = () => {
       // Fetch user policies to determine discounts
       let hasHomePolicyDiscount = false;
       let hasAutoPolicyDiscount = false;
-      const autoPoliciesResponse = await api.get(`/${token}/alluserautopolicies`);
-      const homePoliciesResponse = await api.get(`/${token}/alluserhomepolicies`);
+      let autoPoliciesResponse;
+      let homePoliciesResponse;
+      if (userId) {
+        autoPoliciesResponse = await api.get(`/${token}/alluserautopoliciesbyid/${userId}`);
+        homePoliciesResponse = await api.get(`/${token}/alluserhomepoliciesbyid/${userId}`);
+      }
+      else {
+      autoPoliciesResponse = await api.get(`/${token}/alluserautopolicies`);
+      homePoliciesResponse = await api.get(`/${token}/alluserhomepolicies`);
+      }
       const activeAutoPolicies = autoPoliciesResponse.data.filter(
         policy => policy.viewingType === 'POLICY' && policy.activeStatus
       );
@@ -98,7 +107,7 @@ const QuoteForm = () => {
         formDataToSend.append('driverAge', driverAge);
         formDataToSend.append('insuredAutomobile.vehicleMake', formData.vehicleMake);
         formDataToSend.append('insuredAutomobile.vehicleModel', formData.vehicleModel);
-        formDataToSend.append('insuredAutomobile.vehicleManufactureDate', formData.vehicleYear + '-01-01');
+        formDataToSend.append('insuredAutomobile.vehicleManufactureDate', new Date(formData.vehicleYear + '-01-01').toISOString().split('T')[0]);
         formDataToSend.append('insuredAutomobile.numberofAccidents', accidents);
         formDataToSend.append('basePremium', basePremium);
         formDataToSend.append('taxRate', taxRate);
@@ -152,7 +161,10 @@ const QuoteForm = () => {
       }
       console.log('FormData being sent:', formDataEntries);
   
-      const endpoint = policyType === 'auto' ? `/${token}/autoquote` : `/${token}/homequote`;
+      let endpoint = policyType === 'auto' ? `/${token}/autoquote` : `/${token}/homequote`;
+      if (userId) {
+        endpoint = endpoint.concat(`byId/${userId}`);
+      }
       const response = await api.post(endpoint, formDataToSend, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
@@ -326,7 +338,7 @@ const QuoteForm = () => {
       <p>Total Premium: ${quoteResult.totalPremium.toFixed(2)}</p>
       <p>Valid Until: {new Date(quoteResult.endDate).toLocaleDateString()}</p>
     </Alert>
-    <Button
+   <Button
   onClick={async () => {
     try {
       const token = localStorage.getItem('token');
@@ -334,9 +346,16 @@ const QuoteForm = () => {
         throw new Error('Please log in to purchase a policy.');
       }
 
-      // Check active policy limits
-      const autoPoliciesResponse = await api.get(`/${token}/alluserautopolicies`);
-      const homePoliciesResponse = await api.get(`/${token}/alluserhomepolicies`);
+      let autoPoliciesResponse;
+      let homePoliciesResponse;
+      if (userId) {
+        autoPoliciesResponse = await api.get(`/${token}/alluserautopoliciesbyid/${userId}`);
+        homePoliciesResponse = await api.get(`/${token}/alluserhomepoliciesbyid/${userId}`);
+      }
+      else {
+      autoPoliciesResponse = await api.get(`/${token}/alluserautopolicies`);
+      homePoliciesResponse = await api.get(`/${token}/alluserhomepolicies`);
+      }
       const activeAutoPolicies = autoPoliciesResponse.data.filter(
         policy => policy.viewingType === 'POLICY' && policy.activeStatus
       );
@@ -352,7 +371,7 @@ const QuoteForm = () => {
       }
 
       console.log('Fetching quotes with token:', token);
-      const quotesResponse = await api.get(`/${token}/alluser${policyType === 'auto' ? 'auto' : 'home'}policies`);
+      const quotesResponse = await api.get(`/${token}/alluser${policyType === 'auto' ? 'auto' : 'home'}policies${userId ? `byid/${userId}`: null}`);
       console.log('Quotes response:', quotesResponse.data);
 
       const quoteDetails = JSON.parse(localStorage.getItem('latestQuote') || '{}');

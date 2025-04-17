@@ -3,16 +3,20 @@ import { Link, useNavigate } from 'react-router-dom'; // Add useNavigate
 
 function Header() {
   const navigate = useNavigate(); // Add this for redirection
-  const isAuthenticated = !!localStorage.getItem('token'); // Check if token exists
+  const isAuthenticated = !!localStorage.getItem('token');
+  
+   // Check if token exists
 
   const handleLogout = () => {
+    window.confirm('are you sure?')
     localStorage.removeItem('token'); // Clear token
+    localStorage.removeItem('session-type'); // Clear token
     navigate('/'); // Redirect to landing page
   };
 
   const navLinks = [
     { name: 'Home', path: '/' },
-    { name: 'Services', path: '/services' },
+    { name: 'Services', path: isAuthenticated ? localStorage.getItem('session-type') == "CUSTOMER" ? 'customer-home' : 'employee-home' : '/customer-login' },
     { name: 'About', path: '/about' },
     { name: 'Contact', path: '/contact' },
   ];
