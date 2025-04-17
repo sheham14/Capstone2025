@@ -1,5 +1,5 @@
 import React from 'react';
-import QuoteForm from '../Components/QuoteForm';
+import QuoteForm from '../components/QuoteForm';
 
 const Quote = () => (
   <QuoteForm />
