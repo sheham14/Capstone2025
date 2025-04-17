@@ -120,7 +120,7 @@ const AllPolicies = () => {
   return (
     <Container className="my-5">
         <>
-          <h2 className="text-center mb-4" style={{ color: 'var(--primary-color)' }}>Auto Policies</h2>
+          <h2 className="text-center mb-4" style={{ color: 'var(--primary-color)' }}>All Policies</h2>
           <Table striped bordered hover responsive>
             <thead>
               <tr>
