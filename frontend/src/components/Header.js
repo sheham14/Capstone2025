@@ -24,9 +24,20 @@ function Header() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary-color">
       <div className="container">
-        <Link className="navbar-brand fw-bold text-secondary-color" to="/">
-          Taylor Insurance
-        </Link>
+      <Link className="navbar-brand d-flex align-items-center" to="/">
+      <img
+  src="/TaylorInsuranceLogo.png"
+  alt="Taylor Insurance Logo"
+  style={{
+    height: '50px',          // this controls the final visible size
+    transform: 'scale(2.6)', // visually enlarges it without affecting layout
+    transformOrigin: 'left center',
+    marginLeft: '-10px'      // optional: nudge it back to align better
+  }}
+/>
+
+</Link>
+
         <button
           className="navbar-toggler"
           type="button"

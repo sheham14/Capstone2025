@@ -12,12 +12,18 @@ import Users from './pages/Users';
 import AllPoliciesByType from './pages/AllPoliciesByType';
 import AllPolicies from './pages/AllPolicies';
 import RatingFactors from './pages/RatingFactors';
+import ContactForm from './components/ContactForm'; 
+import AboutUs from './components/AboutUs';
+
+
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route element={<Layout />}>
+        <Route path="/contact" element={<ContactForm />} />
+        <Route path="/about" element={<AboutUs />} />
           <Route path="/" element={<LandingPage />} />
           <Route path="/policies" element={<Policies />} />
           <Route path="/policies/:userId" element={<Policies />} />
@@ -29,7 +35,7 @@ function App() {
           <Route path="/users" element={<Users/>} />
           <Route path="/allpoliciesbytype" element={<AllPoliciesByType/>} />
           <Route path="/allpolicies" element={<AllPolicies/>} />
-          <Route path="//rating-factors" element={<RatingFactors/>} />
+          <Route path="/rating-factors" element={<RatingFactors/>} />
           
         </Route>
         <Route path="/customer-login" element={<CustomerLoginPage />} />
