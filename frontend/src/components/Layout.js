@@ -5,7 +5,7 @@ import Footer from './Footer';
 
 const Layout = () => (
   <div>
-    <Header isAuthenticated={false} />
+    <Header/>
     <main>
       <Outlet />
     </main>

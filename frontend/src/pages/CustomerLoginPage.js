@@ -1,14 +1,25 @@
-// src/pages/CustomerLoginPage.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import LoginForm from '../Components/LoginForm';
+import LoginForm from '../components/LoginForm';
+import api from '../services/api';
 
 function CustomerLoginPage() {
   const navigate = useNavigate();
 
-  const handleLogin = (credentials) => {
-    // Mock login success; replace with real auth later
-    navigate('/customer-home');
+  const handleLogin = async (credentials) => {
+    try {
+      const response = await api.post('/login', null, {
+        params: { email: credentials.email, password: credentials.password },
+      });
+      if (!response.data) {
+        throw new Error('Invalid email or password');
+      }
+      localStorage.setItem('token', response.data);
+      localStorage.setItem('session-type', 'CUSTOMER');
+      navigate('/customer-home');
+    } catch (err) {
+      alert(err.message || 'Login failed. Try again.');
+    }
   };
 
   return (
@@ -19,8 +30,10 @@ function CustomerLoginPage() {
             <LoginForm
               title="Customer Login"
               onSubmit={handleLogin}
-              linkText="Employee Login"
-              linkPath="/employee-login"
+              links={[
+                { text: 'Employee Login', path: '/employee-login' },
+                { text: 'Register', path: '/register' },
+              ]}
             />
           </div>
         </div>

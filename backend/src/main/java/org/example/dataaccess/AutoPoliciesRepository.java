@@ -11,7 +11,7 @@ public interface AutoPoliciesRepository extends CrudRepository<AutoInsurance, In
 
     Iterable<AutoInsurance> getAllByid(Long id);
     Iterable<AutoInsurance> findBypolicyOwner(User user_id);
-    Iterable<AutoInsurance> findBypolicyOwnerAndactiveStatus(User policyOwner, boolean activeStatus);
+    Iterable<AutoInsurance> findBypolicyOwnerAndActiveStatus(User policyOwner, boolean activeStatus);
     //Note: I am surprised this works! Spring detects it and fills in the method. Crazy.
     //If this didn't work I would have retrieved all the homes and looped through and grab the homes that
     //matched the user id.

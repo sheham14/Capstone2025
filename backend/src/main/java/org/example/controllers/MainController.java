@@ -20,12 +20,14 @@ import java.util.UUID;
  * The main controller for this application. Controllers can be split by the base URL in the request mapping
  */
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping(path = RESTNouns.TOKEN)
 public class MainController {
 
     @Autowired private TokenRepository tokenRepository;
     @Autowired private HomePoliciesRepository homePoliciesRepository;
     @Autowired private AutoPoliciesRepository autoPoliciesRepository;
+    @Autowired private UserRepository userRepository;
 
     /**
      * Post mapping for a new home insurance policy
@@ -64,6 +66,21 @@ public class MainController {
         return autoPoliciesRepository.save(autoInsurancePolicy);
     }
 
+    @PostMapping("/homequotebyId" + RESTNouns.ID)
+    public HomeInsurance addHomeInsuranceQuotebyId(@PathVariable("id") Integer userId, @ModelAttribute HomeInsurance policy ) {
+        HomeInsurance homeInsurancePolicy = policy;
+        homeInsurancePolicy.setPolicyOwner(userRepository.getUserById(userId));
+        homeInsurancePolicy.setViewingType(POLICYVIEWINGTYPE.QUOTE);
+        return homePoliciesRepository.save(homeInsurancePolicy);
+    }
+
+    @PostMapping("/autoquotebyId" + RESTNouns.ID)
+    public AutoInsurance addAutoInsuranceQuotebyId(@PathVariable("id") Integer userId, @ModelAttribute AutoInsurance policy ) {
+        AutoInsurance autoInsurancePolicy = policy;
+        autoInsurancePolicy.setPolicyOwner(userRepository.getUserById(userId));
+        autoInsurancePolicy.setViewingType(POLICYVIEWINGTYPE.QUOTE);
+        return autoPoliciesRepository.save(autoInsurancePolicy);
+    }
 
     @PostMapping("/autopolicy")
     public AutoInsurance addAutoInsurance(@PathVariable("token") UUID token, @ModelAttribute AutoInsurance policy ) {
@@ -89,11 +106,34 @@ public class MainController {
         return autoPolicies;
     }
 
+    @GetMapping("/alluserautopoliciesbyid" + RESTNouns.ID)
+    public Iterable <AutoInsurance> getAllAutoPoliciesByUserid(@PathVariable("id") Integer userId) {
+        User user = userRepository.getUserById(userId);
+        Iterable<AutoInsurance> autoPolicies = autoPoliciesRepository.findBypolicyOwner(user);
+        return autoPolicies;
+    }
+
     @GetMapping("/alluserhomepolicies")
     public Iterable <HomeInsurance> getAllHomePoliciesByUser(@PathVariable("token") UUID token) {
         User user = tokenRepository.Token(token).getTokenOwner();
         Iterable<HomeInsurance> homePolicies = homePoliciesRepository.findBypolicyOwner(user);
         return homePolicies;
+    }
+
+    @GetMapping("/alluserhomepoliciesbyid" + RESTNouns.ID)
+    public Iterable <HomeInsurance> getAllHomePoliciesByUserid(@PathVariable("id") Integer userId) {
+        User user = userRepository.getUserById(userId);
+        Iterable<HomeInsurance> homePolicies = homePoliciesRepository.findBypolicyOwner(user);
+        return homePolicies;
+    }
+
+    @GetMapping("/alluserpoliciesbyid" + RESTNouns.ID)
+    public UserPoliciesResponse getAllPoliciesByUserid(@PathVariable("id") Integer userId) {
+        User user = userRepository.getUserById(userId);
+        Iterable<HomeInsurance> homePolicies = homePoliciesRepository.findBypolicyOwner(user);
+        Iterable<AutoInsurance> autoPolicies = autoPoliciesRepository.findBypolicyOwner(user);
+        UserPoliciesResponse allPoliciesResponse = new UserPoliciesResponse(homePolicies, autoPolicies);
+        return allPoliciesResponse;
     }
 
     @GetMapping("/allhomepolicies")
@@ -133,8 +173,5 @@ public class MainController {
         }
         
     }
-
-
-
     
 }
