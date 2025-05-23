@@ -71,7 +71,7 @@ const CustomerHomepage = () => {
                   <Card.Text>Update your personal information.</Card.Text>
                   <Button
                     as={Link}
-                    to="/rating-factors"
+                    to={`/edit-user/${userId}`}
                     style={{
                       backgroundColor: 'var(--secondary-color)',
                       borderColor: 'var(--secondary-color)',

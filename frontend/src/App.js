@@ -14,6 +14,7 @@ import AllPolicies from './pages/AllPolicies';
 import RatingFactors from './pages/RatingFactors';
 import ContactForm from './components/ContactForm'; 
 import AboutUs from './components/AboutUs';
+import EditUser from './pages/EditUser';
 
 
 
@@ -36,6 +37,7 @@ function App() {
           <Route path="/allpoliciesbytype" element={<AllPoliciesByType/>} />
           <Route path="/allpolicies" element={<AllPolicies/>} />
           <Route path="/rating-factors" element={<RatingFactors/>} />
+          <Route path="/edit-user/:userId" element={<EditUser/>} />
           
         </Route>
         <Route path="/customer-login" element={<CustomerLoginPage />} />
