@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "https://main.dojq4677oq2fu.amplifyapp.com"})
 public class UserController {
     @Autowired private UserRepository userRepository;
     @Autowired private TokenRepository tokenRepository;
@@ -60,8 +60,7 @@ public class UserController {
 
     /**
      * Post Mapping for a new customers
-     * @param name name
-     * @param email email
+     * @param  user
      * @return
      */
     @PostMapping("/register")
@@ -75,8 +74,7 @@ public class UserController {
 
         /**
      * Post Mapping for a new customers
-     * @param name name
-     * @param email email
+     * @param user name
      * @return
      */
     @PostMapping("/registerrepresenative")

@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "https://main.dojq4677oq2fu.amplifyapp.com"})
 @RequestMapping(path = RESTNouns.TOKEN + RESTNouns.ID)
 public class HomePolicyController {
     @Autowired

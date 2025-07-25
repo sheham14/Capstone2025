@@ -12,16 +12,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "https://main.dojq4677oq2fu.amplifyapp.com"}
+
+)
 @RequestMapping(path = RESTNouns.TOKEN + RESTNouns.ID)
 public class AutoPolicyController {
     @Autowired
     private AutoPoliciesRepository autoPoliciesRepository;
 
     /**
-     * Get for a autoIsnurance
+     * Get for a autoInsurance
      * 
-     * @param userId
+     * @param policyId
      * @return
      */
     @GetMapping("/getautopolicy")
@@ -32,9 +34,8 @@ public class AutoPolicyController {
     /**
      * Put mapping for user
      * 
-     * @param userId
-     * @param name
-     * @param email
+     * @param policyId
+     * @param autoInsurance
      * @return
      */
     @PutMapping("/updateautopolicyautomobile")

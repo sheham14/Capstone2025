@@ -20,7 +20,7 @@ import java.util.UUID;
  * The main controller for this application. Controllers can be split by the base URL in the request mapping
  */
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "https://main.dojq4677oq2fu.amplifyapp.com"})
 @RequestMapping(path = RESTNouns.TOKEN)
 public class MainController {
 
