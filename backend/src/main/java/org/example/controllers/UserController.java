@@ -7,6 +7,7 @@ import org.example.pojos.Core.User;
 import org.example.pojos.Core.User.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.Optional;
@@ -108,4 +109,10 @@ public class UserController {
         }
 
     }
+
+    @GetMapping("/")
+    public ResponseEntity<String> home() {
+        return ResponseEntity.ok("Backend is live");
+    }
+
 }
