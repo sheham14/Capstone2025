@@ -82,24 +82,7 @@ const CustomerHomepage = () => {
                 </Card.Body>
               </Card>
             </Col>
-            {/* <Col>
-              <Card className="h-100 text-center">
-                <Card.Body>
-                  <Card.Title>Renew Policy</Card.Title>
-                  <Card.Text>Renew your existing policy.</Card.Text>
-                  <Button
-                    as={Link}
-                    to="/renew"
-                    style={{
-                      backgroundColor: 'var(--secondary-color)',
-                      borderColor: 'var(--secondary-color)',
-                    }}
-                  >
-                    Renew Policy
-                  </Button>
-                </Card.Body>
-              </Card>
-            </Col> */}
+
             <Col>
               <Card className="h-100 text-center">
                 <Card.Body>
