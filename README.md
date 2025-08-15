@@ -10,6 +10,14 @@ A full-stack insurance quoting platform built with **React**, **Spring Boot**, a
 - **Frontend:** [https://main.dojq4677oq2fu.amplifyapp.com](https://main.dojq4677oq2fu.amplifyapp.com)
 - **Backend:** [https://sheham-capstone.duckdns.org](https://sheham-capstone.duckdns.org)
 
+> 🔐 **Test Credentials**
+> - **Admin login:**  
+>   Email: `repman@example.com`  
+>   Password: `adminpass`
+>
+> - **Customer login:**  
+>   You can register with your own credentials and sign in.
+
 ---
 
 ## ⚙️ Tech Stack
